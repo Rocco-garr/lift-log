@@ -1,0 +1,78 @@
+{
+  "updated": "2026-10-17",
+  "goal": 185,
+  "startMax": 162,
+  "startDate": "2026-10-19",
+  "note": "Week 1 of the bench plan starts Monday: 4×5 at 140. Check off every set so the reps get logged.",
+  "benchWeeks": [
+    { "week": 1, "scheme": "4×5", "weight": 140 },
+    { "week": 2, "scheme": "4×5", "weight": 145 },
+    { "week": 3, "scheme": "4×5", "weight": 150 },
+    { "week": 4, "scheme": "4×5", "weight": 155 },
+    { "week": 5, "scheme": "4×3", "weight": 160 },
+    { "week": 6, "scheme": "Deload 3×5", "weight": 135 },
+    { "week": 7, "scheme": "4×3", "weight": 165 },
+    { "week": 8, "scheme": "4×3", "weight": 170 },
+    { "week": 9, "scheme": "3×2", "weight": 175 },
+    { "week": 10, "scheme": "Test single", "weight": 185 }
+  ],
+  "templates": [
+    {
+      "id": "day1", "label": "Day 1", "name": "Heavy Bench + Back", "weekday": 1,
+      "exercises": [
+        { "name": "Bench Press (Barbell)", "sets": 4, "reps": "5", "weight": 140, "rest": 180, "note": "Main lift. Follow the bench plan weight for this week." },
+        { "name": "Incline Bench Press (Smith Machine)", "sets": 3, "reps": "8", "weight": 90, "rest": 90 },
+        { "name": "Lat Pulldown (Cable)", "sets": 4, "reps": "8", "weight": 140, "rest": 90, "note": "Wide grip" },
+        { "name": "Seated Row (Machine)", "sets": 3, "reps": "10", "weight": 150, "rest": 90 },
+        { "name": "Bicep Curl (Barbell)", "sets": 3, "reps": "10", "weight": 60, "rest": 60 },
+        { "name": "Triceps Extension (Cable)", "sets": 3, "reps": "10", "weight": 50, "rest": 60, "note": "Both arms. Elbows pinned to your sides." }
+      ]
+    },
+    {
+      "id": "day2", "label": "Day 2", "name": "Legs A · Quads", "weekday": 2,
+      "exercises": [
+        { "name": "Squat (Barbell)", "sets": 4, "reps": "6", "weight": 115, "rest": 180, "note": "Add 10 lb a week while it moves fast. Use the safety pins." },
+        { "name": "Leg Press", "sets": 3, "reps": "10", "weight": 300, "rest": 120 },
+        { "name": "Bulgarian Split Squat (Dumbbell)", "sets": 3, "reps": "8/leg", "weight": 20, "rest": 90, "note": "20s in each hand" },
+        { "name": "Leg Extension (Machine)", "sets": 3, "reps": "12", "weight": 150, "rest": 75 },
+        { "name": "Standing Calf Raise (Machine)", "sets": 4, "reps": "12", "weight": null, "rest": 60 },
+        { "name": "Hanging Leg Raise", "sets": 3, "reps": "12", "weight": null, "rest": 60 },
+        { "name": "Cable Crunch", "sets": 3, "reps": "15", "weight": null, "rest": 60 }
+      ]
+    },
+    {
+      "id": "day3", "label": "Day 3", "name": "Volume Bench + Arms", "weekday": 4,
+      "exercises": [
+        { "name": "Bench Press (Barbell)", "sets": 4, "reps": "6", "weight": 125, "rest": 150, "note": "1-second pause on your chest every rep" },
+        { "name": "Bench Press - Close Grip (Barbell)", "sets": 3, "reps": "8", "weight": 115, "rest": 120 },
+        { "name": "Shoulder Press (Machine)", "sets": 3, "reps": "10", "weight": 65, "rest": 90 },
+        { "name": "Preacher Curl (Barbell)", "sets": 3, "reps": "10", "weight": 60, "rest": 60 },
+        { "name": "Hammer Curl (Dumbbell)", "sets": 3, "reps": "10", "weight": 25, "rest": 60, "note": "Go to 30s once you get 10 on every set" },
+        { "name": "Triceps Extension (Cable)", "sets": 3, "reps": "12", "weight": 40, "rest": 60, "note": "Overhead with the rope" }
+      ]
+    },
+    {
+      "id": "day4", "label": "Day 4", "name": "Legs B · Hamstrings/Glutes", "weekday": 5,
+      "exercises": [
+        { "name": "Romanian Deadlift (Barbell)", "sets": 4, "reps": "8", "weight": 115, "rest": 150 },
+        { "name": "Walking Lunge (Dumbbell)", "sets": 3, "reps": "10/leg", "weight": 25, "rest": 90, "note": "25s in each hand" },
+        { "name": "Seated Leg Curl (Machine)", "sets": 3, "reps": "10", "weight": 160, "rest": 75 },
+        { "name": "Seated Calf Raise", "sets": 4, "reps": "15", "weight": null, "rest": 60 },
+        { "name": "Ab Wheel", "sets": 3, "reps": "10", "weight": null, "rest": 60 },
+        { "name": "Plank", "sets": 3, "reps": "45 sec", "weight": null, "rest": 60 }
+      ]
+    },
+    {
+      "id": "day5", "label": "Day 5", "name": "Bench Frequency + Arm Pump", "weekday": 6,
+      "exercises": [
+        { "name": "Bench Press (Barbell)", "sets": 3, "reps": "8", "weight": 120, "rest": 120 },
+        { "name": "Chest Press (Machine)", "sets": 3, "reps": "10", "weight": 110, "rest": 90 },
+        { "name": "Incline Curl (Dumbbell)", "sets": 3, "reps": "12", "weight": 20, "rest": 60 },
+        { "name": "Triceps Pushdown (Cable)", "sets": 3, "reps": "12", "weight": null, "rest": 60, "note": "Both arms, rope. Spread the rope at the bottom." },
+        { "name": "Chest Dip", "sets": 3, "reps": "max", "weight": null, "rest": 90 },
+        { "name": "Face Pull (Cable)", "sets": 3, "reps": "15", "weight": null, "rest": 60 },
+        { "name": "Sit Up", "sets": 3, "reps": "15", "weight": null, "rest": 45 }
+      ]
+    }
+  ]
+}

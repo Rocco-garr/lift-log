@@ -1,0 +1,595 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Lift Log</title>
+<meta name="description" content="Rocco's workout logger">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#171b21" media="(prefers-color-scheme: dark)">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Lift Log">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png" type="image/png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: one phone-width column — sticky bar with tabs, plan cards, then a workout screen of set rows on a 4-column grid */
+:root{
+  --bg:#eceef1; --surface:#ffffff; --sunk:#f4f5f7; --line:#d3d8df; --fg:#13171c; --muted:#5b6470;
+  --accent:#c4122f; --accent-fg:#ffffff; --accent-soft:#fbe4e8;
+  --done:#1d7448; --done-bg:#def1e6; --warn:#9a6200;
+  --font-display:"Barlow Condensed","Arial Narrow",Arial,sans-serif;
+  --font-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --font-mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){:root{
+  --bg:#0e1115; --surface:#171b21; --sunk:#1e232b; --line:#2b323c; --fg:#e7eaee; --muted:#98a1ad;
+  --accent:#ef4058; --accent-fg:#ffffff; --accent-soft:#3a1820;
+  --done:#52c78f; --done-bg:#14291f; --warn:#e0a83a; color-scheme:dark}}
+
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--fg);font-family:var(--font-body);font-size:15px;line-height:1.45;-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent}
+button{font:inherit;color:inherit;cursor:pointer;touch-action:manipulation}
+button:focus-visible,input:focus-visible,summary:focus-visible,a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.num{font-family:var(--font-mono);font-variant-numeric:tabular-nums}
+
+.bar{position:sticky;top:0;z-index:5;background:var(--surface);border-bottom:1px solid var(--line);padding-top:env(safe-area-inset-top,0px)}
+.bar-in,.wrap{max-width:560px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.bar-in{display:flex;align-items:center;gap:12px;padding-block:10px}
+.brand{font-family:var(--font-display);font-weight:700;font-size:22px;letter-spacing:.04em;text-transform:uppercase}
+.brand b{color:var(--accent)}
+.sync{margin-left:auto;font-size:12px;color:var(--muted);text-align:right}
+.tabs{display:flex;gap:4px;padding-block:0 8px}
+.tab{flex:1;border:0;background:var(--sunk);border-radius:8px;padding:8px 4px;font-weight:600;font-size:14px;color:var(--muted)}
+.tab[aria-pressed="true"]{background:var(--fg);color:var(--bg)}
+
+.wrap{padding-block:16px calc(140px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:14px}
+.label{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+h2{font-family:var(--font-display);font-weight:700;font-size:26px;line-height:1.05;margin:0;text-wrap:balance}
+h3{font-family:var(--font-display);font-weight:600;font-size:20px;line-height:1.1;margin:0}
+p{margin:0}
+.muted{color:var(--muted)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:10px;min-width:0}
+
+.goal-row{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.goal-big{font-family:var(--font-display);font-weight:700;font-size:44px;line-height:1}
+.meter{position:relative;height:10px;background:var(--sunk);border-radius:5px;overflow:hidden}
+.meter i{position:absolute;inset:0 auto 0 0;background:var(--accent);border-radius:5px}
+.ticks{display:flex;justify-content:space-between;font-size:12px;color:var(--muted)}
+.target{display:flex;justify-content:space-between;gap:8px;align-items:center;background:var(--sunk);border-radius:8px;padding:8px 10px;font-size:14px}
+
+.note{border-left:3px solid var(--accent);padding:2px 0 2px 10px;font-size:14px}
+.today{border-color:var(--accent)}
+.btn{border:0;border-radius:10px;padding:12px 16px;font-weight:600;background:var(--sunk)}
+.btn.primary{background:var(--accent);color:var(--accent-fg)}
+.btn.ghost{background:transparent;border:1px solid var(--line)}
+.btn.small{padding:7px 12px;font-size:13px;border-radius:8px}
+.btn[disabled]{opacity:.5;cursor:default}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.spread{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.tlist{display:flex;flex-direction:column;gap:8px}
+.titem{display:flex;align-items:center;gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 14px;text-align:left;width:100%}
+.titem .day{font-family:var(--font-display);font-weight:700;font-size:15px;color:var(--accent);min-width:44px;text-transform:uppercase}
+.titem .t{flex:1;min-width:0}
+.titem .t b{display:block;font-weight:600}
+.titem .t span{font-size:13px;color:var(--muted)}
+.chev{color:var(--muted)}
+
+.whead{display:flex;flex-direction:column;gap:8px}
+.ex{gap:8px}
+.ex-meta{font-size:13px;color:var(--muted)}
+.ex-last{font-size:13px;background:var(--sunk);border-radius:6px;padding:6px 8px}
+.sets{display:flex;flex-direction:column;gap:6px}
+.sethead,.set{display:grid;grid-template-columns:26px minmax(0,1fr) minmax(0,1fr) 52px;gap:8px;align-items:center}
+.sethead{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.set .n{font-family:var(--font-mono);color:var(--muted);text-align:center}
+.set input{width:100%;min-width:0;border:1px solid var(--line);background:var(--sunk);color:var(--fg);border-radius:8px;padding:10px 8px;font-family:var(--font-mono);font-size:17px;text-align:center}
+.set.done input{background:var(--done-bg);border-color:transparent}
+.chk{height:44px;border-radius:8px;border:1px solid var(--line);background:var(--surface);font-size:20px;line-height:1;color:var(--muted)}
+.set.done .chk{background:var(--done);border-color:var(--done);color:var(--surface)}
+.addset{align-self:flex-start}
+.form{flex:none;display:inline-flex;align-items:center;gap:4px;padding:6px 10px;border-radius:8px;background:var(--accent-soft);color:var(--accent);font-size:13px;font-weight:600;text-decoration:none;white-space:nowrap}
+
+.restbar{position:fixed;left:0;right:0;bottom:0;z-index:8;background:var(--fg);color:var(--bg);padding-bottom:env(safe-area-inset-bottom,0px)}
+.restbar-in{max-width:560px;margin:0 auto;display:flex;align-items:center;gap:12px;padding-block:12px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.restbar .clock{font-family:var(--font-mono);font-size:26px;font-weight:600}
+.restbar .lbl{font-size:13px;opacity:.75;flex:1;min-width:0}
+.restbar button{border:0;border-radius:8px;padding:8px 12px;background:var(--bg);color:var(--fg);font-weight:600;font-size:13px}
+.restbar.over .clock{color:var(--accent)}
+body.typing .restbar{display:none}
+.hdrrest{display:none;font-family:var(--font-mono);font-weight:600;font-size:14px;background:var(--fg);color:var(--bg);border-radius:6px;padding:2px 8px}
+body.typing.resting .hdrrest{display:inline-block}
+.hdrrest.over{background:var(--accent);color:var(--accent-fg)}
+
+details.hist{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+details.hist summary{list-style:none;display:flex;justify-content:space-between;gap:10px;cursor:pointer}
+details.hist summary::-webkit-details-marker{display:none}
+.hist-body{display:flex;flex-direction:column;gap:6px;margin-top:10px;font-size:14px}
+.hist-ex{display:flex;flex-direction:column}
+.hist-ex span{font-family:var(--font-mono);font-size:13px;color:var(--muted);overflow-wrap:anywhere}
+.pill{font-size:11px;font-weight:600;border-radius:999px;padding:2px 8px;background:var(--sunk);color:var(--muted);white-space:nowrap}
+.pill.warn{color:var(--warn)}
+.empty{text-align:center;padding:28px 14px;color:var(--muted)}
+
+/* progress */
+.prog{display:grid;grid-template-columns:1fr auto;gap:4px 12px;align-items:end}
+.prog .val{font-family:var(--font-display);font-weight:700;font-size:32px;line-height:1}
+.spark{width:100%;height:56px;display:block}
+.spark .ln{fill:none;stroke:var(--accent);stroke-width:2}
+.spark .ar{fill:var(--accent-soft)}
+.spark .dot{fill:var(--accent)}
+.spark .gl{stroke:var(--line);stroke-width:1}
+.prs{display:flex;flex-direction:column;gap:6px;font-size:14px}
+.prs div{display:flex;justify-content:space-between;gap:10px;border-bottom:1px solid var(--line);padding-bottom:6px}
+.prs div:last-child{border-bottom:0}
+
+/* settings */
+.field{display:flex;flex-direction:column;gap:6px}
+.field input{border:1px solid var(--line);background:var(--sunk);color:var(--fg);border-radius:8px;padding:10px;font-family:var(--font-mono);font-size:14px;width:100%;min-width:0}
+ol.steps{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:4px;font-size:14px}
+.update{position:fixed;left:0;right:0;top:0;z-index:20;background:var(--accent);color:var(--accent-fg);padding-top:env(safe-area-inset-top,0px)}
+.update button{display:block;width:100%;border:0;background:transparent;color:inherit;padding:10px 16px;font-weight:600}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<div class="update" id="update" hidden><button id="update-btn">New version ready. Tap to update.</button></div>
+<header class="bar">
+  <div class="bar-in"><div class="brand">Lift<b>Log</b></div><span class="hdrrest" id="hdrrest"></span><div class="sync" id="sync"></div></div>
+  <div class="bar-in tabs" id="tabs">
+    <button class="tab" data-view="home" aria-pressed="true">Plan</button>
+    <button class="tab" data-view="history" aria-pressed="false">History</button>
+    <button class="tab" data-view="progress" aria-pressed="false">Progress</button>
+    <button class="tab" data-view="settings" aria-pressed="false">Sync</button>
+  </div>
+</header>
+<main class="wrap" id="app"><div class="empty">Loading your plan…</div></main>
+<div class="restbar" id="restbar" hidden>
+  <div class="restbar-in"><div class="clock" id="restclock">0:00</div><div class="lbl" id="restlbl">Rest</div>
+    <button id="rest-add">+30s</button><button id="rest-skip">Done</button></div>
+</div>
+
+<script>
+(function(){
+"use strict";
+const DOW = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+const MAIN_LIFTS = ["Bench Press (Barbell)","Squat (Barbell)","Romanian Deadlift (Barbell)"];
+const DATA_REPO = "Rocco-garr/lift-log-data";
+const app = document.getElementById("app");
+
+/* ---------- storage ---------- */
+const LS = {
+  get(k, d){ try{ const v=localStorage.getItem("ll."+k); return v==null?d:JSON.parse(v); }catch(e){ return d; } },
+  set(k, v){ try{ if (v==null) localStorage.removeItem("ll."+k); else localStorage.setItem("ll."+k, JSON.stringify(v)); }catch(e){} }
+};
+const state = {
+  plan: LS.get("plan", null),
+  sessions: LS.get("sessions", []),
+  active: LS.get("active", null),
+  token: LS.get("token", ""),
+  shas: LS.get("shas", {}),
+  view: "home", rest:null, confirmDiscard:false, syncMsg:""
+};
+if (state.active && state.active.status!=="active") state.active=null;
+function saveSessions(){ state.sessions.sort((a,b)=> (b.startedAt||"").localeCompare(a.startedAt||"")); LS.set("sessions", state.sessions); }
+function saveActive(){ LS.set("active", state.active); }
+try{ navigator.storage && navigator.storage.persist && navigator.storage.persist(); }catch(e){}
+
+/* ---------- helpers ---------- */
+function h(tag, attrs, ...kids){
+  const el = document.createElement(tag);
+  for (const [k,v] of Object.entries(attrs||{})){
+    if (v==null || v===false) continue;
+    if (k==="class") el.className=v;
+    else if (k==="text") el.textContent=v;
+    else if (k.startsWith("on")) el.addEventListener(k.slice(2), v);
+    else el.setAttribute(k, v===true ? "" : v);
+  }
+  for (const kid of kids.flat()){
+    if (kid==null || kid===false) continue;
+    el.append(kid instanceof Node ? kid : document.createTextNode(String(kid)));
+  }
+  return el;
+}
+const svgEl = (tag, attrs) => { const el=document.createElementNS("http://www.w3.org/2000/svg", tag); for (const [k,v] of Object.entries(attrs)) el.setAttribute(k, v); return el; };
+const localDate = d => `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+const parseDate = s => { const [y,m,d]=s.split("-").map(Number); return new Date(y,m-1,d); };
+const fmtDate = s => { const d=parseDate(s); return `${DOW[d.getDay()]} ${d.toLocaleString("en-US",{month:"short"})} ${d.getDate()}`; };
+const mmss = s => { s=Math.max(0,Math.round(s)); return `${Math.floor(s/60)}:${String(s%60).padStart(2,"0")}`; };
+const num = v => { const n=parseFloat(v); return Number.isFinite(n) ? n : null; };
+const e1rm = (w,r) => (w>0 && r>=1 && r<=12) ? w*(1+r/30) : 0;
+const clone = o => JSON.parse(JSON.stringify(o));
+function setSync(t){ state.syncMsg=t; document.getElementById("sync").textContent=t; }
+
+/* ---------- plan ---------- */
+async function loadPlan(){
+  try{
+    const r = await fetch("plan.json?t="+Date.now(), {cache:"no-store"});
+    if (r.ok){ state.plan = await r.json(); LS.set("plan", state.plan); if (state.view!=="workout") render(); }
+  }catch(e){ /* offline: keep cached plan */ }
+}
+
+/* ---------- GitHub sync (private data repo) ---------- */
+const b64 = s => btoa(unescape(encodeURIComponent(s)));
+const unb64 = s => decodeURIComponent(escape(atob(s.replace(/\n/g,""))));
+async function gh(path, opts){
+  const r = await fetch("https://api.github.com/repos/"+DATA_REPO+"/contents/"+path, {
+    ...opts, headers: { "Accept":"application/vnd.github+json", "Authorization":"Bearer "+state.token, ...(opts&&opts.headers||{}) }
+  });
+  return r;
+}
+async function pushSession(s){
+  const path = "sessions/"+s.id+".json";
+  const body = (sha)=>JSON.stringify({ message: `Workout ${s.date} · ${s.templateName}`, content: b64(JSON.stringify(s, null, 2)), ...(sha?{sha}:{}) });
+  let r = await gh(path, { method:"PUT", body: body(state.shas[s.id]) });
+  if (r.status===409 || r.status===422){
+    const g = await gh(path); if (g.ok){ const j=await g.json(); r = await gh(path, { method:"PUT", body: body(j.sha) }); }
+  }
+  if (!r.ok) throw new Error(r.status===401||r.status===403 ? "token" : r.status===404 ? "repo" : "http "+r.status);
+  const j = await r.json(); state.shas[s.id]=j.content.sha; LS.set("shas", state.shas);
+}
+async function deleteRemote(id){
+  if (!state.token) return;
+  try{
+    let sha = state.shas[id];
+    if (!sha){ const g=await gh("sessions/"+id+".json"); if (!g.ok) return; sha=(await g.json()).sha; }
+    await gh("sessions/"+id+".json", { method:"DELETE", body: JSON.stringify({ message:"Remove workout "+id, sha }) });
+    delete state.shas[id]; LS.set("shas", state.shas);
+  }catch(e){}
+}
+let syncing=false;
+async function syncAll(){
+  if (!state.token){ setSync(navigator.onLine===false ? "Offline" : "Saved on phone"); return; }
+  if (syncing) return; syncing=true; setSync("Syncing…");
+  try{
+    // pull: add workouts this device doesn't have (e.g. logged on another device, or added by Claude)
+    const r = await gh("sessions");
+    if (r.status===404){ /* folder not created yet */ }
+    else if (!r.ok) throw new Error(r.status===401||r.status===403 ? "token" : "http "+r.status);
+    else {
+      const list = await r.json();
+      const have = new Map(state.sessions.map(s=>[s.id, s]));
+      for (const f of list){
+        if (!f.name.endsWith(".json")) continue;
+        const id = f.name.slice(0,-5);
+        state.shas[id] = state.shas[id] || f.sha;
+        const local = have.get(id);
+        if (local && local.synced && state.shas[id]===f.sha) continue;
+        if (local && !local.synced) continue; // local edits win; pushed below
+        const g = await gh("sessions/"+f.name);
+        if (!g.ok) continue;
+        const j = await g.json();
+        const s = JSON.parse(unb64(j.content)); s.synced=true; state.shas[id]=j.sha;
+        if (local) Object.assign(local, s); else state.sessions.push(s);
+      }
+      LS.set("shas", state.shas); saveSessions();
+    }
+    // push: finished workouts not yet backed up
+    for (const s of state.sessions.filter(x=>x.status==="done" && !x.synced)){
+      const copy = clone(s); delete copy.synced;
+      await pushSession(copy); s.synced=true; saveSessions();
+    }
+    setSync("Backed up");
+  }catch(e){
+    setSync(e.message==="token" ? "Sync: check token" : e.message==="repo" ? "Sync: repo not found" : "Offline — will retry");
+  }
+  syncing=false;
+  if (state.view!=="workout") render();
+}
+window.addEventListener("online", syncAll);
+document.addEventListener("visibilitychange", ()=>{ if (document.visibilityState==="visible" && state.view!=="workout") syncAll(); });
+
+/* ---------- data helpers ---------- */
+function doneSessions(){ return state.sessions.filter(s=>s.status==="done"); }
+function lastFor(name, templateId){
+  const list = doneSessions();
+  const pick = list.find(s=>s.templateId===templateId && s.exercises?.some(e=>e.name===name && e.sets?.length))
+            || list.find(s=>s.exercises?.some(e=>e.name===name && e.sets?.length));
+  if (!pick) return null;
+  return { date: pick.date, sets: pick.exercises.find(e=>e.name===name).sets };
+}
+function bestByDay(name){
+  const map = new Map();
+  for (const s of doneSessions()) for (const ex of s.exercises||[]) if (ex.name===name)
+    for (const st of ex.sets||[]){ const v=e1rm(num(st.w),num(st.r)); if (v>(map.get(s.date)||0)) map.set(s.date, v); }
+  return [...map.entries()].sort((a,b)=>a[0].localeCompare(b[0])).map(([date,v])=>({date, v:Math.round(v)}));
+}
+function benchMax(){
+  const cutoff = localDate(new Date(Date.now()-28*864e5));
+  const pts = bestByDay("Bench Press (Barbell)").filter(p=>p.date>=cutoff);
+  if (!pts.length) return null;
+  return pts.reduce((a,b)=>b.v>a.v?b:a);
+}
+function planWeek(){
+  if (!state.plan?.startDate) return null;
+  const start = parseDate(state.plan.startDate), today = parseDate(localDate(new Date()));
+  const diff = Math.round((today - start)/864e5);
+  return diff < 0 ? { before:true, start } : { week: Math.floor(diff/7)+1 };
+}
+function templates(){ return state.plan?.templates || []; }
+
+/* ---------- views ---------- */
+function render(){
+  for (const b of document.querySelectorAll(".tab")) b.setAttribute("aria-pressed", String(b.dataset.view===state.view));
+  document.getElementById("tabs").hidden = state.view==="workout";
+  const v = state.view;
+  app.replaceChildren(...(v==="workout" ? viewWorkout() : v==="history" ? viewHistory() : v==="progress" ? viewProgress() : v==="settings" ? viewSettings() : viewHome()));
+}
+
+function goalCard(){
+  const goal = state.plan?.goal || 185, startMax = state.plan?.startMax || 160, floor = 135;
+  const bm = benchMax();
+  const cur = bm ? bm.v : startMax;
+  const pct = Math.max(0, Math.min(100, (cur-floor)/(goal-floor)*100));
+  const pw = planWeek();
+  let target = null;
+  if (pw && !pw.before){
+    const w = state.plan?.benchWeeks?.find(x=>x.week===pw.week);
+    target = w ? h("div",{class:"target"}, h("span",{}, `Week ${pw.week} · Day 1 bench`), h("b",{class:"num"}, `${w.scheme} @ ${w.weight}`))
+               : h("div",{class:"target"}, h("span",{}, `Week ${pw.week}`), h("b",{}, "Plan finished. Time to retest."));
+  } else if (pw && pw.before){
+    const w1 = state.plan?.benchWeeks?.[0];
+    target = h("div",{class:"target"}, h("span",{}, `Week 1 starts ${DOW[pw.start.getDay()]} ${pw.start.toLocaleString("en-US",{month:"short"})} ${pw.start.getDate()}`), w1 ? h("b",{class:"num"}, `${w1.scheme} @ ${w1.weight}`) : null);
+  }
+  return h("section",{class:"card"},
+    h("div",{class:"label"}, "Bench goal"),
+    h("div",{class:"goal-row"}, h("span",{class:"goal-big num"}, cur), h("span",{class:"muted"}, `est. max → ${goal}`)),
+    h("div",{class:"meter",role:"img","aria-label":`Estimated max ${cur} of ${goal} pounds`}, h("i",{style:`width:${pct}%`})),
+    h("div",{class:"ticks num"}, h("span",{},floor), h("span",{}, bm ? `best of last 4 weeks` : `starting estimate`), h("span",{},goal)),
+    target);
+}
+
+function templateButton(t, isToday){
+  return h("button",{class:"titem"+(isToday?" today":""), onclick:()=>startWorkout(t)},
+    h("span",{class:"day"}, DOW[t.weekday] || t.label),
+    h("span",{class:"t"}, h("b",{}, `${t.label} · ${t.name}`), h("span",{}, `${(t.exercises||[]).length} exercises · ${t.exercises?.[0]?.name || ""}`)),
+    h("span",{class:"chev","aria-hidden":"true"}, "›"));
+}
+
+function viewHome(){
+  const out=[];
+  if (state.active){
+    out.push(h("section",{class:"card today"},
+      h("div",{class:"label"},"Workout in progress"),
+      h("h3",{}, state.active.templateName),
+      h("div",{class:"row"}, h("button",{class:"btn primary",onclick:()=>{ state.view="workout"; render(); window.scrollTo(0,0); }}, "Resume"))));
+  }
+  out.push(goalCard());
+  if (state.plan?.note) out.push(h("section",{class:"card"}, h("div",{class:"label"},"From Claude"), h("p",{class:"note"}, state.plan.note)));
+  if (!templates().length){ out.push(h("div",{class:"empty"}, "Loading your plan… Connect to the internet once so the app can download it.")); return out; }
+  const dow = new Date().getDay();
+  const todayT = templates().find(t=>t.weekday===dow);
+  out.push(h("div",{class:"label"}, todayT ? "Today" : "Today is a rest day"));
+  if (todayT) out.push(templateButton(todayT, true));
+  out.push(h("div",{class:"label"}, "All workouts"));
+  out.push(h("div",{class:"tlist"}, templates().map(t=>templateButton(t, false))));
+  return out;
+}
+
+function startWorkout(t){
+  if (state.active){ state.view="workout"; render(); window.scrollTo(0,0); return; }
+  const now = new Date();
+  state.active = {
+    id: "s-"+now.getTime(), templateId: t.id, templateName: `${t.label} · ${t.name}`,
+    status: "active", startedAt: now.toISOString(), date: localDate(now),
+    exercises: (t.exercises||[]).map(ex=>{
+      const last = lastFor(ex.name, t.id);
+      const w = ex.weight ?? (last?.sets?.[0]?.w ?? "");
+      return { name: ex.name, note: ex.note||"", target:{ sets:ex.sets, reps:ex.reps, weight:ex.weight??null, rest:ex.rest||90 },
+               sets: Array.from({length:ex.sets}, ()=>({ w: w, r:"", done:false })) };
+    })
+  };
+  saveActive(); state.confirmDiscard=false; state.view="workout"; render(); window.scrollTo(0,0);
+}
+
+function formUrl(name){
+  const q = name.replace(/[()]/g," ").replace(/\s+-\s+/g," ").replace(/\s+/g," ").trim() + " proper form";
+  return "https://www.youtube.com/results?search_query=" + encodeURIComponent(q);
+}
+function clearOnFocus(e){ const el=e.target; el.dataset.prev = el.value; el.value=""; }
+function restoreOnBlur(e, s, key){ const el=e.target; if (el.value==="" && el.dataset.prev){ el.value=el.dataset.prev; s[key]=el.dataset.prev; saveActive(); } delete el.dataset.prev; }
+
+function viewWorkout(){
+  const a = state.active; if (!a){ state.view="home"; return viewHome(); }
+  const doneCount = a.exercises.reduce((n,e)=>n+e.sets.filter(s=>s.done).length,0);
+  const head = h("section",{class:"whead"},
+    h("div",{class:"spread"}, h("div",{class:"label"}, fmtDate(a.date)), h("div",{class:"label num",id:"elapsed"}, mmss((Date.now()-new Date(a.startedAt))/1000))),
+    h("h2",{}, a.templateName),
+    h("div",{class:"row"},
+      h("button",{class:"btn primary",onclick:finishWorkout, disabled: doneCount? null : true}, doneCount ? `Finish · ${doneCount} sets` : "Check off a set to finish"),
+      h("button",{class:"btn ghost",onclick:discard}, state.confirmDiscard ? "Tap again to discard" : "Discard"),
+      h("button",{class:"btn ghost",onclick:()=>{ state.view="home"; render(); }}, "Back")));
+  const cards = a.exercises.map((ex, ei)=>{
+    const last = lastFor(ex.name, a.templateId);
+    const t = ex.target;
+    return h("section",{class:"card ex"},
+      h("div",{class:"spread"}, h("h3",{}, ex.name),
+        h("a",{class:"form", href: formUrl(ex.name), target:"_blank", rel:"noopener", "aria-label":`Watch ${ex.name} form on YouTube`}, "▶ Form")),
+      h("div",{class:"ex-meta num"}, `${t.sets} × ${t.reps}${t.weight!=null?` @ ${t.weight} lb`:""} · rest ${mmss(t.rest)}`),
+      ex.note ? h("div",{class:"note"}, ex.note) : null,
+      last ? h("div",{class:"ex-last num"}, `Last (${fmtDate(last.date)}): ` + last.sets.map(s=>`${s.w||"BW"}×${s.r}`).join(", ")) : null,
+      h("div",{class:"sets"},
+        h("div",{class:"sethead"}, h("span",{},"Set"), h("span",{},"lb"), h("span",{},"Reps"), h("span",{})),
+        ex.sets.map((s, si)=> h("div",{class:"set"+(s.done?" done":"")},
+          h("span",{class:"n"}, si+1),
+          h("input",{id:`w-${ei}-${si}`, inputmode:"decimal", "aria-label":`${ex.name} set ${si+1} weight`, placeholder: t.weight==null ? "BW" : String(t.weight), value: s.w==null?"":String(s.w),
+            onfocus:clearOnFocus, onblur:(e)=>restoreOnBlur(e, s, "w"), oninput:(e)=>{ s.w=e.target.value; saveActive(); }}),
+          h("input",{id:`r-${ei}-${si}`, inputmode:"numeric", "aria-label":`${ex.name} set ${si+1} reps`, placeholder: String(t.reps), value: s.r==null?"":String(s.r),
+            onfocus:clearOnFocus, onblur:(e)=>restoreOnBlur(e, s, "r"), oninput:(e)=>{ s.r=e.target.value; saveActive(); }}),
+          h("button",{class:"chk","aria-label":s.done?"Undo set":"Complete set","aria-pressed":String(s.done), onclick:()=>toggleSet(ex, s)}, "✓")))),
+      h("button",{class:"btn small ghost addset", onclick:()=>{ const prev=ex.sets[ex.sets.length-1]; ex.sets.push({w:prev?prev.w:"", r:"", done:false}); saveActive(); render(); }}, "+ Add set"));
+  });
+  return [head, ...cards];
+}
+
+function toggleSet(ex, s){
+  s.done = !s.done;
+  if (s.done){
+    if ((s.r===""||s.r==null) && num(ex.target.reps)!=null) s.r = String(num(ex.target.reps));
+    if ((s.w===""||s.w==null) && ex.target.weight!=null) s.w = String(ex.target.weight);
+    startRest(ex.target.rest, ex.name);
+  }
+  saveActive(); render();
+}
+
+function finishWorkout(){
+  const a = state.active; if (!a) return;
+  a.exercises = a.exercises.map(e=>({ name:e.name, note:e.note, target:e.target, sets: e.sets.filter(s=>s.done).map(s=>({ w: num(s.w) ?? 0, r: num(s.r) ?? 0 })) })).filter(e=>e.sets.length);
+  a.status="done"; a.finishedAt=new Date().toISOString(); a.synced=false;
+  state.sessions = state.sessions.filter(x=>x.id!==a.id); state.sessions.push(a); saveSessions();
+  state.active=null; saveActive(); stopRest(); state.view="history"; render(); window.scrollTo(0,0);
+  syncAll();
+}
+function discard(){
+  if (!state.confirmDiscard){ state.confirmDiscard=true; render(); return; }
+  state.active=null; state.confirmDiscard=false; saveActive(); stopRest(); state.view="home"; render();
+}
+
+let confirmDelete=null;
+function viewHistory(){
+  const list = doneSessions();
+  if (!list.length) return [h("div",{class:"empty"}, "No finished workouts yet. Start one from the Plan tab and tap Finish when you're done.")];
+  return list.map(s=>{
+    const mins = s.finishedAt ? Math.round((new Date(s.finishedAt)-new Date(s.startedAt))/60000) : null;
+    const sets = (s.exercises||[]).reduce((n,e)=>n+(e.sets?.length||0),0);
+    return h("details",{class:"hist"},
+      h("summary",{},
+        h("span",{}, h("b",{}, s.templateName), h("div",{class:"muted",style:"font-size:13px"}, `${fmtDate(s.date)}${mins!=null?` · ${mins} min`:""} · ${sets} sets`)),
+        state.token ? h("span",{class:"pill"+(s.synced?"":" warn")}, s.synced ? "Backed up" : "Not backed up") : null),
+      h("div",{class:"hist-body"},
+        (s.exercises||[]).map(e=> h("div",{class:"hist-ex"}, h("b",{}, e.name), h("span",{}, e.sets.map(x=>`${x.w||"BW"}×${x.r}`).join("  ")))),
+        h("button",{class:"btn small ghost",style:"align-self:flex-start;margin-top:6px",onclick:async()=>{
+          if (confirmDelete!==s.id){ confirmDelete=s.id; render(); return; }
+          confirmDelete=null; state.sessions=state.sessions.filter(x=>x.id!==s.id); saveSessions(); render(); await deleteRemote(s.id);
+        }}, confirmDelete===s.id ? "Tap again to delete" : "Delete workout")));
+  });
+}
+
+function sparkline(pts){
+  const W=300, H=56, P=4;
+  const svg = svgEl("svg",{viewBox:`0 0 ${W} ${H}`,class:"spark",preserveAspectRatio:"none","aria-hidden":"true"});
+  if (pts.length<2) return svg;
+  const vs=pts.map(p=>p.v), lo=Math.min(...vs)-5, hi=Math.max(...vs)+5;
+  const x=i=>P+(W-2*P)*i/(pts.length-1), y=v=>H-P-(H-2*P)*(v-lo)/(hi-lo||1);
+  svg.append(svgEl("line",{x1:0,x2:W,y1:H-1,y2:H-1,class:"gl"}));
+  const d = pts.map((p,i)=>`${i?"L":"M"}${x(i).toFixed(1)},${y(p.v).toFixed(1)}`).join(" ");
+  svg.append(svgEl("path",{d:`${d} L${x(pts.length-1)},${H} L${x(0)},${H} Z`,class:"ar"}));
+  svg.append(svgEl("path",{d,class:"ln"}));
+  svg.append(svgEl("circle",{cx:x(pts.length-1),cy:y(pts[pts.length-1].v),r:3.5,class:"dot"}));
+  return svg;
+}
+function viewProgress(){
+  const out=[];
+  const done = doneSessions();
+  if (!done.length) return [h("div",{class:"empty"}, "Finish a few workouts and your progress shows up here.")];
+  const weekAgo = localDate(new Date(Date.now()-6*864e5));
+  const thisWeek = done.filter(s=>s.date>=weekAgo).length;
+  out.push(h("section",{class:"card"}, h("div",{class:"label"},"Last 7 days"),
+    h("div",{class:"goal-row"}, h("span",{class:"goal-big num"}, thisWeek), h("span",{class:"muted"}, `of 5 planned workouts`))));
+  for (const name of MAIN_LIFTS){
+    const pts = bestByDay(name);
+    if (!pts.length) continue;
+    const last = pts[pts.length-1], first = pts[0];
+    out.push(h("section",{class:"card"},
+      h("div",{class:"label"}, name + " · estimated max"),
+      h("div",{class:"prog"}, h("span",{class:"val num"}, last.v), h("span",{class:"muted num",style:"font-size:13px"}, pts.length>1 ? `${last.v-first.v>=0?"+":""}${last.v-first.v} lb since ${fmtDate(first.date)}` : fmtDate(last.date))),
+      pts.length>1 ? sparkline(pts) : h("p",{class:"muted",style:"font-size:13px"}, "The trend line shows up after your second session with this lift.")));
+  }
+  const best = new Map();
+  for (const s of done) for (const ex of s.exercises||[]) for (const st of ex.sets||[]){
+    const w=num(st.w)||0, r=num(st.r)||0; if (!w) continue;
+    const cur=best.get(ex.name); if (!cur || w>cur.w || (w===cur.w && r>cur.r)) best.set(ex.name,{w,r,date:s.date});
+  }
+  if (best.size) out.push(h("section",{class:"card"}, h("div",{class:"label"},"Heaviest set per exercise"),
+    h("div",{class:"prs"}, [...best.entries()].sort((a,b)=>a[0].localeCompare(b[0])).map(([n,b])=> h("div",{}, h("span",{}, n), h("span",{class:"num"}, `${b.w}×${b.r}`))))));
+  return out;
+}
+
+function viewSettings(){
+  const unsynced = doneSessions().filter(s=>!s.synced).length;
+  const inp = h("input",{id:"token", type:"password", autocomplete:"off", spellcheck:"false", placeholder:"github_pat_…", value: state.token});
+  return [
+    h("section",{class:"card"},
+      h("div",{class:"label"},"Backup & Claude access"),
+      h("p",{}, state.token ? `Finished workouts back up to your private GitHub repo (${DATA_REPO}), where Claude reads them to adjust your plan.` : "Workouts save on this phone. Add a GitHub token to back them up and let Claude read them."),
+      h("div",{class:"row"}, h("span",{class:"pill"+(unsynced?" warn":"")}, unsynced ? `${unsynced} not backed up` : "Everything backed up"), h("span",{class:"muted",style:"font-size:13px"}, state.syncMsg))),
+    h("section",{class:"card"},
+      h("div",{class:"field"}, h("label",{for:"token",class:"label"},"GitHub token"), inp),
+      h("div",{class:"row"},
+        h("button",{class:"btn primary",onclick:()=>{ state.token=inp.value.trim(); LS.set("token", state.token); syncAll(); }}, "Save & sync"),
+        state.token ? h("button",{class:"btn ghost",onclick:()=>{ state.token=""; LS.set("token",""); render(); }}, "Remove") : null),
+      h("ol",{class:"steps"},
+        h("li",{}, "On github.com: Settings → Developer settings → Fine-grained tokens → Generate new token."),
+        h("li",{}, "Repository access: Only select repositories → lift-log-data."),
+        h("li",{}, "Permissions → Contents: Read and write. Expiration: up to a year."),
+        h("li",{}, "Copy the token, paste it above, tap Save & sync."))),
+    h("section",{class:"card"},
+      h("div",{class:"label"},"Other"),
+      h("div",{class:"row"},
+        h("button",{class:"btn ghost",onclick:()=>{ loadPlan(); syncAll(); }}, "Refresh plan"),
+        h("button",{class:"btn ghost",onclick:async(e)=>{
+          const txt = JSON.stringify({ sessions: state.sessions }, null, 2);
+          try{ await navigator.clipboard.writeText(txt); e.target.textContent="Copied"; }catch(err){ e.target.textContent="Copy failed"; }
+        }}, "Copy all data")),
+      h("p",{class:"muted",style:"font-size:13px"}, `Plan updated ${state.plan?.updated || "—"}.`))
+  ];
+}
+
+/* ---------- rest timer ---------- */
+const restbar=document.getElementById("restbar"), restclock=document.getElementById("restclock"), restlbl=document.getElementById("restlbl"), hdrrest=document.getElementById("hdrrest");
+let restTick=null, buzzed=false, actx=null;
+function unlockAudio(){ try{ actx = actx || new (window.AudioContext||window.webkitAudioContext)(); if (actx.state==="suspended") actx.resume(); }catch(e){ actx=null; } }
+function beep(){
+  if (!actx) return;
+  try{ [0,0.25,0.5].forEach(t=>{ const o=actx.createOscillator(), g=actx.createGain(); o.frequency.value=880; o.connect(g); g.connect(actx.destination);
+    const s=actx.currentTime+t; g.gain.setValueAtTime(0.0001,s); g.gain.exponentialRampToValueAtTime(0.4,s+0.02); g.gain.exponentialRampToValueAtTime(0.0001,s+0.18); o.start(s); o.stop(s+0.2); }); }catch(e){}
+}
+function startRest(sec, name){ unlockAudio(); state.rest={ end: Date.now()+sec*1000, name }; buzzed=false; restbar.hidden=false; tickRest(); clearInterval(restTick); restTick=setInterval(tickRest, 250); }
+function stopRest(){ state.rest=null; clearInterval(restTick); restbar.hidden=true; restbar.classList.remove("over"); document.body.classList.remove("resting"); }
+function tickRest(){
+  if (!state.rest) return;
+  const left = (state.rest.end-Date.now())/1000;
+  restclock.textContent = left>=0 ? mmss(left) : "+"+mmss(-left);
+  hdrrest.textContent = "Rest " + restclock.textContent; hdrrest.classList.toggle("over", left<0);
+  document.body.classList.add("resting");
+  restlbl.textContent = left>=0 ? `Rest · next: ${state.rest.name}` : "Rest's up. Next set.";
+  restbar.classList.toggle("over", left<0);
+  if (left<0 && !buzzed){ buzzed=true; beep(); try{ navigator.vibrate && navigator.vibrate([200,100,200]); }catch(e){} }
+}
+document.getElementById("rest-skip").addEventListener("click", stopRest);
+document.getElementById("rest-add").addEventListener("click", ()=>{ if(state.rest){ state.rest.end = Math.max(state.rest.end, Date.now()) + 30000; buzzed=false; tickRest(); } });
+document.addEventListener("focusin", e=>{ if (e.target.matches && e.target.matches(".set input")) document.body.classList.add("typing"); });
+document.addEventListener("focusout", ()=>{ setTimeout(()=>{ const a=document.activeElement; if (!(a && a.matches && a.matches(".set input"))) document.body.classList.remove("typing"); }, 0); });
+setInterval(()=>{ const el=document.getElementById("elapsed"); if (el && state.active) el.textContent=mmss((Date.now()-new Date(state.active.startedAt))/1000); }, 1000);
+
+for (const b of document.querySelectorAll(".tab")) b.addEventListener("click", ()=>{ state.view=b.dataset.view; confirmDelete=null; render(); window.scrollTo(0,0); });
+
+/* ---------- service worker + updates ---------- */
+if ("serviceWorker" in navigator){
+  navigator.serviceWorker.register("sw.js").then(reg=>{
+    const offer = ()=>{ document.getElementById("update").hidden=false; };
+    if (reg.waiting) offer();
+    reg.addEventListener("updatefound", ()=>{ const w=reg.installing; w && w.addEventListener("statechange", ()=>{ if (w.state==="installed" && navigator.serviceWorker.controller) offer(); }); });
+    document.getElementById("update-btn").addEventListener("click", ()=>{ (reg.waiting||reg.installing)?.postMessage("skipWaiting"); });
+    setInterval(()=>reg.update().catch(()=>{}), 30*60*1000);
+  }).catch(()=>{});
+  let reloaded=false;
+  navigator.serviceWorker.addEventListener("controllerchange", ()=>{ if (!reloaded){ reloaded=true; location.reload(); } });
+}
+
+/* ---------- boot ---------- */
+render();
+loadPlan();
+syncAll();
+try{ navigator.wakeLock && navigator.wakeLock.request("screen").catch(()=>{}); }catch(e){}
+})();
+</script>
+</body>
+</html>
