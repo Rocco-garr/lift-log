@@ -4,6 +4,22 @@
   "startMax": 170,
   "startDate": "2026-10-19",
   "note": "Plan rebuilt for the machines at Anytime Fitness Mound. Bench starts from your Oct 17 session (135×8 ≈ 170 max). Big lifts: stop 1–2 reps short. Machines and cables: work in the rep range, last set to failure. When every set hits the top of the range, add weight.",
+  "review": null,
+  "graphs": [
+    "Bench Press (Barbell)",
+    "Incline Bench Press (Smith Machine)",
+    "Bench Press - Close Grip (Barbell)",
+    "Hack Squat",
+    "Leg Press",
+    "Romanian Deadlift (Barbell)",
+    "Squat (Barbell)",
+    "Shoulder Press (Machine)",
+    "Lat Pulldown (Cable)",
+    "Seated Row (Machine)",
+    "Chest Press (Machine)",
+    "Hip Thrust (Machine)",
+    "Seated Leg Curl (Machine)"
+  ],
   "benchWeeks": [
     {
       "week": 1,
@@ -515,5 +531,667 @@
         }
       ]
     }
-  ]
+  ],
+  "library": {
+    "Bench Press (Barbell)": {
+      "m": "Chest",
+      "e": "Barbell",
+      "inc": 5,
+      "how": "Feet planted, shoulder blades pinched back and down, slight arch. Grip a little wider than shoulders. Lower to mid-chest under control, touch, drive up and slightly back toward the rack.",
+      "swaps": [
+        "Bench Press (Dumbbell)",
+        "Chest Press (Machine)",
+        "Incline Bench Press (Smith Machine)"
+      ],
+      "main": true
+    },
+    "Incline Bench Press (Smith Machine)": {
+      "m": "Upper chest",
+      "e": "Smith machine",
+      "inc": 10,
+      "how": "Bench at about 30°. Bar touches just below the collarbones, elbows about 45° from your sides. Press up without slamming into lockout.",
+      "swaps": [
+        "Incline Bench Press (Dumbbell)",
+        "Cable Fly (Low to High)",
+        "Chest Press (Machine)"
+      ]
+    },
+    "Pec Fly (Machine)": {
+      "m": "Chest",
+      "e": "Machine",
+      "inc": 10,
+      "how": "Seat so the handles sit at chest height. Slight bend in the elbows, open wide until you feel the stretch, squeeze together for 1 second. Don't let the stack touch down between reps.",
+      "swaps": [
+        "Cable Fly",
+        "Dumbbell Fly",
+        "Chest Press (Machine)"
+      ]
+    },
+    "Chest Press (Machine)": {
+      "m": "Chest",
+      "e": "Machine",
+      "inc": 10,
+      "how": "Handles level with mid-chest. Press out and slightly together, stop just short of lockout, come back slow until your hands are even with your chest.",
+      "swaps": [
+        "Bench Press (Dumbbell)",
+        "Pec Fly (Machine)",
+        "Push-Up (Weighted)"
+      ]
+    },
+    "Chest Dip": {
+      "m": "Chest + triceps",
+      "e": "Bodyweight",
+      "inc": 5,
+      "how": "Lean forward about 30°, elbows slightly out. Go down until your upper arms are level with the floor, press back up. Can't get 6 clean reps? Use the assisted dip machine and log the assist as the weight.",
+      "swaps": [
+        "Bench Press (Dumbbell)",
+        "Push-Up (Weighted)",
+        "Chest Press (Machine)"
+      ]
+    },
+    "Bench Press (Dumbbell)": {
+      "m": "Chest",
+      "e": "Dumbbell",
+      "inc": 5,
+      "how": "Dumbbells on your thighs, kick them up as you lie back. Lower to the sides of your chest with elbows at 45°, press up and slightly in. Keep the dumbbells stacked over your elbows.",
+      "swaps": [
+        "Bench Press (Barbell)",
+        "Chest Press (Machine)",
+        "Push-Up (Weighted)"
+      ]
+    },
+    "Incline Bench Press (Dumbbell)": {
+      "m": "Upper chest",
+      "e": "Dumbbell",
+      "inc": 5,
+      "how": "Bench at about 30°. Lower until the dumbbells are level with your upper chest, press up and slightly together. Don't let your elbows drift behind your shoulders.",
+      "swaps": [
+        "Incline Bench Press (Smith Machine)",
+        "Cable Fly (Low to High)"
+      ]
+    },
+    "Cable Fly": {
+      "m": "Chest",
+      "e": "Cable",
+      "inc": 5,
+      "how": "Pulleys at shoulder height, one step forward in a staggered stance. Slight bend in the elbows, bring your hands together in front of your chest and squeeze 1 second. Open slow until you feel the stretch.",
+      "swaps": [
+        "Pec Fly (Machine)",
+        "Dumbbell Fly"
+      ]
+    },
+    "Cable Fly (Low to High)": {
+      "m": "Upper chest",
+      "e": "Cable",
+      "inc": 5,
+      "how": "Pulleys at the bottom. Sweep your hands up and together to eye level with palms turning up. Squeeze at the top, lower slow.",
+      "swaps": [
+        "Incline Bench Press (Dumbbell)",
+        "Pec Fly (Machine)"
+      ]
+    },
+    "Dumbbell Fly": {
+      "m": "Chest",
+      "e": "Dumbbell",
+      "inc": 5,
+      "how": "Flat bench, a slight elbow bend that never changes. Open until you feel a stretch across the chest, bring the dumbbells back over your chest like hugging a tree.",
+      "swaps": [
+        "Pec Fly (Machine)",
+        "Cable Fly"
+      ]
+    },
+    "Push-Up (Weighted)": {
+      "m": "Chest",
+      "e": "Bodyweight",
+      "inc": 10,
+      "how": "Plate on your upper back, or feet on a bench. Hands just outside your shoulders, body straight, chest to an inch off the floor, press up fully.",
+      "swaps": [
+        "Chest Press (Machine)",
+        "Chest Dip"
+      ]
+    },
+    "Lat Pulldown (Cable)": {
+      "m": "Back (lats)",
+      "e": "Cable",
+      "inc": 10,
+      "how": "Wide grip, thighs locked under the pad. Lean back slightly and pull the bar to your upper chest with your elbows driving down. Let the bar rise all the way for a full stretch.",
+      "swaps": [
+        "Pull-Up",
+        "Lat Pulldown - Close Grip (Cable)",
+        "Straight-Arm Pulldown (Cable)"
+      ]
+    },
+    "Lat Pulldown - Close Grip (Cable)": {
+      "m": "Back (lats)",
+      "e": "Cable",
+      "inc": 10,
+      "how": "V-handle, slight lean back. Pull to the top of your sternum with your elbows close to your body, then control it back to a full stretch.",
+      "swaps": [
+        "Lat Pulldown (Cable)",
+        "Pull-Up"
+      ]
+    },
+    "Pull-Up": {
+      "m": "Back",
+      "e": "Bodyweight",
+      "inc": 5,
+      "how": "Grip a bit wider than shoulders, start from a dead hang. Pull until your chin clears the bar, lower all the way down. Can't get 6? Use the assisted machine and log the assist as the weight.",
+      "swaps": [
+        "Lat Pulldown (Cable)",
+        "Lat Pulldown - Close Grip (Cable)"
+      ]
+    },
+    "Seated Row (Machine)": {
+      "m": "Back (mid)",
+      "e": "Machine",
+      "inc": 10,
+      "how": "Chest on the pad. Pull the handles to your ribs and squeeze your shoulder blades together for 1 second. Let your shoulders roll forward at the start of every rep.",
+      "swaps": [
+        "One-Arm Row (Dumbbell)",
+        "Seated Cable Row",
+        "Chest-Supported Row (Dumbbell)"
+      ]
+    },
+    "Seated Cable Row": {
+      "m": "Back (mid)",
+      "e": "Cable",
+      "inc": 10,
+      "how": "V-handle, sit tall with knees slightly bent. Pull to your belly button with elbows tight, squeeze. Reach forward at the bottom without rounding your lower back.",
+      "swaps": [
+        "Seated Row (Machine)",
+        "One-Arm Row (Dumbbell)"
+      ]
+    },
+    "One-Arm Row (Dumbbell)": {
+      "m": "Back (lats)",
+      "e": "Dumbbell",
+      "inc": 5,
+      "how": "Hand and knee on a bench, back flat. Row the dumbbell to your hip, not your shoulder, pause, lower to a full stretch. All reps on one side, then the other.",
+      "swaps": [
+        "Seated Row (Machine)",
+        "Chest-Supported Row (Dumbbell)"
+      ]
+    },
+    "Chest-Supported Row (Dumbbell)": {
+      "m": "Back (mid)",
+      "e": "Dumbbell",
+      "inc": 5,
+      "how": "Lie chest-down on an incline bench. Row both dumbbells to your hips with elbows at 45°, squeeze the shoulder blades, lower slow.",
+      "swaps": [
+        "Seated Row (Machine)",
+        "One-Arm Row (Dumbbell)"
+      ]
+    },
+    "Straight-Arm Pulldown (Cable)": {
+      "m": "Back (lats)",
+      "e": "Cable",
+      "inc": 5,
+      "how": "Rope or bar on a high pulley, arms almost straight. Hinge slightly and sweep the bar down to your thighs, squeezing your lats. Control it back up overhead.",
+      "swaps": [
+        "Lat Pulldown (Cable)"
+      ]
+    },
+    "Bent-Over Row (Barbell)": {
+      "m": "Back",
+      "e": "Barbell",
+      "inc": 5,
+      "how": "Hinge to about 45° with a flat back, bar hanging below your chest. Row to your lower ribs, squeeze, lower under control. No jerking with your hips.",
+      "swaps": [
+        "Seated Row (Machine)",
+        "One-Arm Row (Dumbbell)"
+      ]
+    },
+    "Shoulder Press (Machine)": {
+      "m": "Shoulders",
+      "e": "Machine",
+      "inc": 10,
+      "how": "Seat so the handles start at ear height. Press up without a hard lockout, lower until your elbows are just below shoulder level. Ribs down, no arching.",
+      "swaps": [
+        "Shoulder Press (Dumbbell)",
+        "Lateral Raise (Dumbbell)"
+      ]
+    },
+    "Shoulder Press (Dumbbell)": {
+      "m": "Shoulders",
+      "e": "Dumbbell",
+      "inc": 5,
+      "how": "Seated with back support, dumbbells at ear height, palms forward. Press up and slightly in, lower under control back to ear height.",
+      "swaps": [
+        "Shoulder Press (Machine)"
+      ]
+    },
+    "Lateral Raise (Dumbbell)": {
+      "m": "Side delts",
+      "e": "Dumbbell",
+      "inc": 5,
+      "how": "Slight lean forward. Raise the dumbbells out to the side to shoulder height with a soft elbow bend, leading with the elbows. Lower slow. Light weight, no swinging.",
+      "swaps": [
+        "Shoulder Press (Machine)",
+        "Reverse Fly (Machine)"
+      ]
+    },
+    "Reverse Fly (Machine)": {
+      "m": "Rear delts + upper back",
+      "e": "Machine",
+      "inc": 10,
+      "how": "Chest on the pad, handles in front at shoulder height. Open your arms wide with a slight elbow bend, squeeze your shoulder blades, return slow.",
+      "swaps": [
+        "Face Pull (Cable)",
+        "Reverse Fly (Dumbbell)"
+      ]
+    },
+    "Face Pull (Cable)": {
+      "m": "Rear delts",
+      "e": "Cable",
+      "inc": 5,
+      "how": "Rope at face height. Pull toward your forehead with elbows high and wide, ending with your hands beside your ears. Squeeze the back of your shoulders.",
+      "swaps": [
+        "Reverse Fly (Machine)",
+        "Reverse Fly (Dumbbell)"
+      ]
+    },
+    "Reverse Fly (Dumbbell)": {
+      "m": "Rear delts",
+      "e": "Dumbbell",
+      "inc": 5,
+      "how": "Hinge forward with a flat back, dumbbells hanging. Raise them out to the sides with a slight elbow bend until they're level with your back, lower slow.",
+      "swaps": [
+        "Reverse Fly (Machine)",
+        "Face Pull (Cable)"
+      ]
+    },
+    "Bicep Curl (Barbell)": {
+      "m": "Biceps",
+      "e": "Barbell",
+      "inc": 5,
+      "how": "Shoulder-width grip, elbows pinned to your sides. Curl to shoulder height without swinging, lower for a slow 2-count all the way down.",
+      "swaps": [
+        "Bicep Curl (Dumbbell)",
+        "Cable Curl",
+        "Preacher Curl (Barbell)"
+      ]
+    },
+    "Bicep Curl (Dumbbell)": {
+      "m": "Biceps",
+      "e": "Dumbbell",
+      "inc": 5,
+      "how": "Palms up, elbows glued to your sides. Curl both to shoulder height, squeeze, lower slow until your arms are straight.",
+      "swaps": [
+        "Bicep Curl (Barbell)",
+        "Hammer Curl (Dumbbell)",
+        "Cable Curl"
+      ]
+    },
+    "Preacher Curl (Barbell)": {
+      "m": "Biceps",
+      "e": "Barbell",
+      "inc": 5,
+      "how": "Armpits on top of the pad, arms flat against it. Curl until your forearms are vertical, lower slow until your arms are almost straight. No bouncing at the bottom.",
+      "swaps": [
+        "Incline Curl (Dumbbell)",
+        "Bicep Curl (Barbell)",
+        "Cable Curl"
+      ]
+    },
+    "Hammer Curl (Dumbbell)": {
+      "m": "Biceps + forearms",
+      "e": "Dumbbell",
+      "inc": 5,
+      "how": "Palms facing each other, elbows at your sides. Curl to shoulder height, lower slow. Alternate arms or both together.",
+      "swaps": [
+        "Bicep Curl (Dumbbell)",
+        "Cable Curl"
+      ]
+    },
+    "Incline Curl (Dumbbell)": {
+      "m": "Biceps (long head)",
+      "e": "Dumbbell",
+      "inc": 5,
+      "how": "Bench at 45–60°, arms hanging straight down behind you. Curl without letting your elbows drift forward, lower all the way to a full stretch.",
+      "swaps": [
+        "Preacher Curl (Barbell)",
+        "Bicep Curl (Dumbbell)"
+      ]
+    },
+    "Cable Curl": {
+      "m": "Biceps",
+      "e": "Cable",
+      "inc": 5,
+      "how": "Straight bar on the low pulley, a small step back. Elbows at your sides, curl to shoulder height, lower slow against the cable.",
+      "swaps": [
+        "Bicep Curl (Barbell)",
+        "Bicep Curl (Dumbbell)"
+      ]
+    },
+    "Triceps Pushdown (Cable)": {
+      "m": "Triceps",
+      "e": "Cable",
+      "inc": 5,
+      "how": "Rope on a high pulley, elbows pinned to your sides. Push down until your arms are straight and spread the rope at the bottom. Let your forearms rise to just above parallel, no higher.",
+      "swaps": [
+        "Triceps Pushdown (Bar)",
+        "Triceps Extension (Cable)",
+        "Skull Crusher (Barbell)"
+      ]
+    },
+    "Triceps Pushdown (Bar)": {
+      "m": "Triceps",
+      "e": "Cable",
+      "inc": 5,
+      "how": "Straight bar, elbows pinned to your sides. Push down to full lockout, control it back up until your forearms are just above parallel.",
+      "swaps": [
+        "Triceps Pushdown (Cable)",
+        "Triceps Extension (Cable)"
+      ]
+    },
+    "Triceps Extension (Cable)": {
+      "m": "Triceps (long head)",
+      "e": "Cable",
+      "inc": 5,
+      "how": "Rope on a low pulley, face away from the stack, hands behind your head with elbows pointing forward. Extend overhead to straight arms, lower slow for a deep stretch.",
+      "swaps": [
+        "Overhead Extension (Dumbbell)",
+        "Skull Crusher (Barbell)",
+        "Triceps Pushdown (Cable)"
+      ]
+    },
+    "Overhead Extension (Dumbbell)": {
+      "m": "Triceps (long head)",
+      "e": "Dumbbell",
+      "inc": 5,
+      "how": "Seated, one dumbbell held in both hands overhead. Lower it behind your head until your forearms touch your biceps, extend back up. Elbows point forward the whole time.",
+      "swaps": [
+        "Triceps Extension (Cable)",
+        "Skull Crusher (Barbell)"
+      ]
+    },
+    "Skull Crusher (Barbell)": {
+      "m": "Triceps",
+      "e": "Barbell",
+      "inc": 5,
+      "how": "Flat bench, bar over your forehead with elbows up. Lower the bar behind the top of your head, extend back up. Upper arms stay still.",
+      "swaps": [
+        "Triceps Extension (Cable)",
+        "Overhead Extension (Dumbbell)"
+      ]
+    },
+    "Bench Press - Close Grip (Barbell)": {
+      "m": "Triceps + chest",
+      "e": "Barbell",
+      "inc": 5,
+      "how": "Grip just inside shoulder width, elbows tucked near your sides. Lower to your lower chest, press up. Same setup as your regular bench.",
+      "swaps": [
+        "Chest Dip",
+        "Skull Crusher (Barbell)",
+        "Triceps Pushdown (Bar)"
+      ]
+    },
+    "Hack Squat": {
+      "m": "Quads",
+      "e": "Machine",
+      "inc": 20,
+      "how": "Feet shoulder-width and a little low on the platform so your knees track over your toes. Go down until your thighs are at least parallel, drive through your whole foot. Back flat on the pad.",
+      "swaps": [
+        "Leg Press",
+        "Squat (Barbell)",
+        "Goblet Squat (Dumbbell)"
+      ],
+      "main": true
+    },
+    "Leg Press": {
+      "m": "Quads + glutes",
+      "e": "Machine",
+      "inc": 20,
+      "how": "Feet shoulder-width in the middle of the platform. Lower until your knees pass 90° without your lower back peeling off the pad. Press through your whole foot, don't lock your knees.",
+      "swaps": [
+        "Hack Squat",
+        "Squat (Barbell)",
+        "Goblet Squat (Dumbbell)"
+      ]
+    },
+    "Squat (Barbell)": {
+      "m": "Quads + glutes",
+      "e": "Barbell",
+      "inc": 5,
+      "how": "Bar on your upper back, feet shoulder-width, toes out a little. Brace, sit down between your heels until your thighs reach parallel, drive up.",
+      "swaps": [
+        "Hack Squat",
+        "Leg Press"
+      ]
+    },
+    "Goblet Squat (Dumbbell)": {
+      "m": "Quads",
+      "e": "Dumbbell",
+      "inc": 5,
+      "how": "Hold one dumbbell at your chest, feet shoulder-width. Squat deep with your elbows inside your knees, chest up, drive through your whole foot.",
+      "swaps": [
+        "Hack Squat",
+        "Leg Press"
+      ]
+    },
+    "Bulgarian Split Squat (Dumbbell)": {
+      "m": "Quads + glutes",
+      "e": "Dumbbell",
+      "inc": 5,
+      "how": "Rear foot on a bench, front foot far enough forward that your knee stays over your foot. Lower straight down until the rear knee nearly touches, drive through the front heel. All reps on one leg, then switch.",
+      "swaps": [
+        "Walking Lunge (Dumbbell)",
+        "Step-Up (Dumbbell)",
+        "Leg Press"
+      ]
+    },
+    "Walking Lunge (Dumbbell)": {
+      "m": "Quads + glutes",
+      "e": "Dumbbell",
+      "inc": 5,
+      "how": "Long step forward, lower until your back knee nearly touches the turf, push through the front heel into the next step. Torso tall.",
+      "swaps": [
+        "Bulgarian Split Squat (Dumbbell)",
+        "Step-Up (Dumbbell)"
+      ]
+    },
+    "Step-Up (Dumbbell)": {
+      "m": "Quads + glutes",
+      "e": "Dumbbell",
+      "inc": 5,
+      "how": "Knee-height box or bench. Step up through the whole foot without pushing off the back leg, step down slow. All reps on one leg, then switch.",
+      "swaps": [
+        "Bulgarian Split Squat (Dumbbell)",
+        "Walking Lunge (Dumbbell)"
+      ]
+    },
+    "Leg Extension (Machine)": {
+      "m": "Quads",
+      "e": "Machine",
+      "inc": 10,
+      "how": "Pad on your shins just above the ankles, knees lined up with the machine's pivot. Extend to full lockout and squeeze 1 second, lower slow.",
+      "swaps": [
+        "Hack Squat",
+        "Leg Press",
+        "Goblet Squat (Dumbbell)"
+      ]
+    },
+    "Hip Adduction (Machine)": {
+      "m": "Inner thighs",
+      "e": "Machine",
+      "inc": 10,
+      "how": "Sit tall with the pads inside your knees. Squeeze your legs together, hold 1 second, open slow to a comfortable stretch.",
+      "swaps": [
+        "Sumo Squat (Dumbbell)",
+        "Hip Abduction (Machine)"
+      ]
+    },
+    "Sumo Squat (Dumbbell)": {
+      "m": "Inner thighs + glutes",
+      "e": "Dumbbell",
+      "inc": 5,
+      "how": "Wide stance, toes out, one dumbbell hanging between your legs. Squat until your thighs are parallel with your knees pushed out, drive up.",
+      "swaps": [
+        "Hip Adduction (Machine)"
+      ]
+    },
+    "Hip Abduction (Machine)": {
+      "m": "Glutes (side)",
+      "e": "Machine",
+      "inc": 10,
+      "how": "Sit tall with the pads outside your knees. Push your legs apart, hold 1 second, come back slow.",
+      "swaps": [
+        "Hip Adduction (Machine)",
+        "Glute Kickback (Cable)"
+      ]
+    },
+    "Romanian Deadlift (Barbell)": {
+      "m": "Hamstrings + glutes",
+      "e": "Barbell",
+      "inc": 5,
+      "how": "Bar against your thighs, soft knees. Push your hips back and slide the bar down your legs until you feel a strong hamstring stretch around mid-shin, then drive your hips forward. Flat back the whole way.",
+      "swaps": [
+        "Romanian Deadlift (Dumbbell)",
+        "Seated Leg Curl (Machine)",
+        "Hip Thrust (Machine)"
+      ],
+      "main": true
+    },
+    "Romanian Deadlift (Dumbbell)": {
+      "m": "Hamstrings + glutes",
+      "e": "Dumbbell",
+      "inc": 5,
+      "how": "Dumbbells in front of your thighs, soft knees. Hips back, dumbbells slide down your legs to mid-shin, drive your hips forward to stand. Keep them close to your legs.",
+      "swaps": [
+        "Romanian Deadlift (Barbell)",
+        "Seated Leg Curl (Machine)"
+      ]
+    },
+    "Hip Thrust (Machine)": {
+      "m": "Glutes",
+      "e": "Machine",
+      "inc": 10,
+      "how": "Pad across your hips, shoulder blades on the bench. Drive your hips up until your body is flat, chin tucked, squeeze 1 second at the top, lower most of the way.",
+      "swaps": [
+        "Hip Thrust (Barbell)",
+        "Glute Kickback (Cable)",
+        "Romanian Deadlift (Dumbbell)"
+      ]
+    },
+    "Hip Thrust (Barbell)": {
+      "m": "Glutes",
+      "e": "Barbell",
+      "inc": 10,
+      "how": "Shoulder blades on a bench, padded bar across your hips, feet set so your shins are vertical at the top. Drive up, squeeze 1 second, lower under control.",
+      "swaps": [
+        "Hip Thrust (Machine)",
+        "Glute Kickback (Cable)"
+      ]
+    },
+    "Glute Kickback (Cable)": {
+      "m": "Glutes",
+      "e": "Cable",
+      "inc": 5,
+      "how": "Ankle strap on a low pulley, hands on the machine. Kick straight back with a nearly straight leg, squeeze, return slow. All reps on one side, then switch.",
+      "swaps": [
+        "Hip Thrust (Machine)",
+        "Hip Abduction (Machine)"
+      ]
+    },
+    "Seated Leg Curl (Machine)": {
+      "m": "Hamstrings",
+      "e": "Machine",
+      "inc": 10,
+      "how": "Thigh pad locked down, ankle pad just above your heels. Curl all the way under the seat, squeeze, let it back slow to a full stretch. Sit tall to stretch the hamstrings more.",
+      "swaps": [
+        "Romanian Deadlift (Dumbbell)",
+        "Swiss Ball Leg Curl"
+      ]
+    },
+    "Swiss Ball Leg Curl": {
+      "m": "Hamstrings",
+      "e": "Bodyweight",
+      "inc": 0,
+      "how": "On your back with your heels on a stability ball and hips lifted. Pull the ball toward you with your heels, keeping your hips high, roll it back out slow.",
+      "swaps": [
+        "Seated Leg Curl (Machine)"
+      ]
+    },
+    "Calf Press on Leg Press": {
+      "m": "Calves",
+      "e": "Machine",
+      "inc": 20,
+      "how": "Balls of your feet on the bottom edge of the sled, legs nearly straight. Let your heels drop for a full stretch, hold 1 second, press up as high as you can.",
+      "swaps": [
+        "Calf Raise (Smith Machine)",
+        "Single-Leg Calf Raise (Dumbbell)"
+      ]
+    },
+    "Calf Raise (Smith Machine)": {
+      "m": "Calves",
+      "e": "Smith machine",
+      "inc": 10,
+      "how": "Balls of your feet on a plate, bar on your upper back. Drop your heels below the plate for a 1-second stretch, then rise as high as you can and squeeze.",
+      "swaps": [
+        "Calf Press on Leg Press",
+        "Single-Leg Calf Raise (Dumbbell)"
+      ]
+    },
+    "Single-Leg Calf Raise (Dumbbell)": {
+      "m": "Calves",
+      "e": "Dumbbell",
+      "inc": 5,
+      "how": "Ball of one foot on a step, dumbbell in the same-side hand, other hand holding on for balance. Full stretch at the bottom, full squeeze at the top. All reps, then switch.",
+      "swaps": [
+        "Calf Press on Leg Press",
+        "Calf Raise (Smith Machine)"
+      ]
+    },
+    "Hanging Leg Raise": {
+      "m": "Abs",
+      "e": "Bodyweight",
+      "inc": 0,
+      "how": "Hang from the pull-up bar. Raise your legs straight to hip height or higher, curling your pelvis up at the top. Lower slow with no swinging. Bend your knees if straight legs are too hard.",
+      "swaps": [
+        "Hanging Knee Raise",
+        "Cable Crunch",
+        "Crunch (Machine)"
+      ]
+    },
+    "Hanging Knee Raise": {
+      "m": "Abs",
+      "e": "Bodyweight",
+      "inc": 0,
+      "how": "Hang from the bar, pull your knees up toward your chest and curl your hips up. Lower slow without swinging.",
+      "swaps": [
+        "Hanging Leg Raise",
+        "Cable Crunch"
+      ]
+    },
+    "Cable Crunch": {
+      "m": "Abs",
+      "e": "Cable",
+      "inc": 10,
+      "how": "Kneel facing the stack with the rope held at your forehead. Crunch your ribs toward your hips by rounding your back, hips stay still. Come back up slow.",
+      "swaps": [
+        "Crunch (Machine)",
+        "Hanging Leg Raise"
+      ]
+    },
+    "Crunch (Machine)": {
+      "m": "Abs",
+      "e": "Machine",
+      "inc": 10,
+      "how": "Pad against your chest or hands on the handles. Crunch forward by rounding your upper back, squeeze 1 second, return slow without letting the stack touch down.",
+      "swaps": [
+        "Cable Crunch",
+        "Hanging Leg Raise"
+      ]
+    },
+    "Plank (Weighted)": {
+      "m": "Core",
+      "e": "Bodyweight",
+      "inc": 10,
+      "how": "Forearms down, body in a straight line, glutes squeezed. Add a plate on your back once 60 seconds is easy. Log seconds as reps.",
+      "swaps": [
+        "Cable Crunch",
+        "Crunch (Machine)"
+      ]
+    }
+  }
 }
