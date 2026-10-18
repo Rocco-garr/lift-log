@@ -973,8 +973,9 @@ function lineChart(pts, opts){
   for (const [x, a, d] of xl) svg.append(ch_text({ class: "axis", x, y: B + 15, "text-anchor": a }, fmtShort(d)));
   const line = P.map((q, i) => (i ? "L" : "M") + q.x + " " + q.y).join("");
   svg.append(svgEl("path", { class: "ar", d: `${line}L${last.x} ${B}L${P[0].x} ${B}Z` }), svgEl("path", { class: "ln", d: line }));
-  if (goal != null) { const gy = Y(goal), crowded = P.some(q => q.x > R - 56 && q.y > gy - 16 && q.y < gy + 2); // a dot where the label would sit → label below the line
-    svg.append(svgEl("line", { class: "goal", x1: L, x2: R, y1: gy, y2: gy }), ch_text({ class: "goal-t", x: R, y: crowded ? gy + 12 : gy - 4, "text-anchor": "end" }, "Goal " + Math.round(goal))); }
+  if (goal != null) { const gy = Y(goal), spots = [[R, "end", -4], [R, "end", 12], [L + 2, "start", -4], [L + 2, "start", 12]]; // right/left × above/below
+    const [gx, ga, dy] = spots.find(([x, a, d]) => { const bx = a === "end" ? x - 50 : x; return !P.some(q => q.x > bx - 6 && q.x < bx + 56 && q.y > gy + d - 14 && q.y < gy + d + 8); }) || spots[0]; // first spot clear of dots
+    svg.append(svgEl("line", { class: "goal", x1: L, x2: R, y1: gy, y2: gy }), ch_text({ class: "goal-t", x: gx, y: gy + dy, "text-anchor": ga }, "Goal " + Math.round(goal))); }
   for (const q of P) svg.append(svgEl("circle", { class: "dot", cx: q.x, cy: q.y, r: 4 }));
   const xh = svgEl("line", { class: "xh", y1: T, y2: B }), ring = svgEl("circle", { class: "dot", r: 6 }), focus = svgEl("g", { visibility: "hidden" }), tip = ch_tip();
   focus.append(xh, ring); svg.append(focus);
@@ -1007,9 +1008,9 @@ function barChart(cols, opts){
     hits.push(svgEl("rect", { class: "hit", x: ch_r(L + slot * i), y: 0, width: ch_r(slot), height: H })); });
   svg.append(...hits);
   ch_hover(svg, e => { const i = hits.indexOf(e.target); if (i < 0) return; const c = cols[i], v = Math.max(num(c.n) || 0, 0), t = top(c);
-    bars.forEach((b, j) => b.style.opacity = j === i ? ".7" : "");
+    bars.forEach((b, j) => b.style.fill = j === i ? "var(--fg)" : ""); // the tapped column takes the app's selected-state ink, like the tip
     ch_tipShow(tip, (L + slot * (i + .5)) / W, t / H, t < T + (B - T) * .3, c.future ? "Upcoming" : `${v} ${v === 1 ? unit.replace(/s$/, "") : unit}`, c.title || String(c.label).replace(/^W(?=\d)/, "Week "));
-  }, () => { bars.forEach(b => b.style.opacity = ""); tip.el.hidden = true; });
+  }, () => { bars.forEach(b => b.style.fill = ""); tip.el.hidden = true; });
   return h("div", { class: "chart" }, svg, tip.el);
 }
 
@@ -1019,7 +1020,6 @@ function liftTable(pts){
   return h("table", { class: "ctable" }, h("thead", null, row("th", ["Date", "Best set", "Est. max"])),
     h("tbody", null, pts.slice().reverse().map(p => row("td", [fmtShort(p.date), `${p.w}×${p.r}`, Math.round(p.v)]))));
 }
-
 
 function viewProgress(){
   const out=[], done=doneSessions();
