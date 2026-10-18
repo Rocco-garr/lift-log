@@ -34,6 +34,7 @@
   --done:#52c78f; --done-bg:#14291f; --warn:#e0a83a; color-scheme:dark}}
 
 *{box-sizing:border-box}
+[hidden]{display:none!important}
 html,body{margin:0}
 body{background:var(--bg);color:var(--fg);font-family:var(--font-body);font-size:15px;line-height:1.45;-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent}
 button{font:inherit;color:inherit;cursor:pointer;touch-action:manipulation}
@@ -81,6 +82,10 @@ p{margin:0}
 .titem .t b{display:block;font-weight:600}
 .titem .t span{font-size:13px;color:var(--muted)}
 .chev{color:var(--muted)}
+.tbtns{display:flex;flex-direction:column;gap:6px;flex:none}
+.tbtns .btn{min-width:72px}
+.effort{font-size:13px;font-weight:600;color:var(--fg)}
+.hint{font-size:13px;font-weight:600;color:var(--done);background:var(--done-bg);border-radius:6px;padding:6px 8px}
 
 .whead{display:flex;flex-direction:column;gap:8px}
 .ex{gap:8px}
@@ -314,13 +319,37 @@ function planWeek(){
   return diff < 0 ? { before:true, start } : { week: Math.floor(diff/7)+1 };
 }
 function templates(){ return state.plan?.templates || []; }
+function parseReps(s){ const m=String(s??"").match(/(\d+)\s*-\s*(\d+)/); if (m) return {lo:+m[1], hi:+m[2]}; const n=parseFloat(s); return Number.isFinite(n) ? {lo:n, hi:n} : null; }
+function currentWeek(){ const pw=planWeek(); return !pw || pw.before ? 1 : pw.week; }
+function benchWeek(){ const ws=state.plan?.benchWeeks||[]; return ws.find(x=>x.week===currentWeek()) || ws[ws.length-1] || null; }
+/* exercises tied to the bench plan take this week's sets, reps and weight */
+function resolveEx(ex){
+  if (!ex.bench) return ex;
+  const b = benchWeek()?.[ex.bench];
+  return b ? { ...ex, sets:b.sets, reps:String(b.reps), weight:b.weight, note:[ex.note, b.note].filter(Boolean).join(" ") } : ex;
+}
+/* double progression: every set at the top of the range last time -> add weight */
+function hintFor(ex, last){
+  if (ex.bench || !last) return null;
+  const r = parseReps(ex.reps); if (!r) return null;
+  const done = last.sets.filter(s=>num(s.r)!=null);
+  if (done.length < (ex.sets||1)) return null;
+  return done.every(s=>num(s.r)>=r.hi) ? `Last time every set hit ${r.hi}. Add weight today.` : null;
+}
+function startWeight(ex, last){
+  if (ex.bench) return ex.weight ?? "";
+  const lw = num(last?.sets?.[0]?.w), tw = num(ex.weight);
+  if (lw!=null && tw!=null) return Math.max(lw, tw);
+  return lw ?? tw ?? "";
+}
 
 /* ---------- views ---------- */
 function render(){
   for (const b of document.querySelectorAll(".tab")) b.setAttribute("aria-pressed", String(b.dataset.view===state.view));
   document.getElementById("tabs").hidden = state.view==="workout";
   const v = state.view;
-  app.replaceChildren(...(v==="workout" ? viewWorkout() : v==="history" ? viewHistory() : v==="progress" ? viewProgress() : v==="settings" ? viewSettings() : viewHome()));
+  document.getElementById("tabs").hidden = v==="workout" || v==="preview";
+  app.replaceChildren(...(v==="workout" ? viewWorkout() : v==="preview" ? viewPreview() : v==="history" ? viewHistory() : v==="progress" ? viewProgress() : v==="settings" ? viewSettings() : viewHome()));
 }
 
 function goalCard(){
@@ -332,11 +361,11 @@ function goalCard(){
   let target = null;
   if (pw && !pw.before){
     const w = state.plan?.benchWeeks?.find(x=>x.week===pw.week);
-    target = w ? h("div",{class:"target"}, h("span",{}, `Week ${pw.week} · Day 1 bench`), h("b",{class:"num"}, `${w.scheme} @ ${w.weight}`))
+    target = w ? h("div",{class:"target"}, h("span",{}, `Week ${pw.week} · Day 1 bench`), h("b",{class:"num"}, `${w.label} @ ${w.day1.weight}`))
                : h("div",{class:"target"}, h("span",{}, `Week ${pw.week}`), h("b",{}, "Plan finished. Time to retest."));
   } else if (pw && pw.before){
     const w1 = state.plan?.benchWeeks?.[0];
-    target = h("div",{class:"target"}, h("span",{}, `Week 1 starts ${DOW[pw.start.getDay()]} ${pw.start.toLocaleString("en-US",{month:"short"})} ${pw.start.getDate()}`), w1 ? h("b",{class:"num"}, `${w1.scheme} @ ${w1.weight}`) : null);
+    target = h("div",{class:"target"}, h("span",{}, `Week 1 starts ${DOW[pw.start.getDay()]} ${pw.start.toLocaleString("en-US",{month:"short"})} ${pw.start.getDate()}`), w1 ? h("b",{class:"num"}, `${w1.label} @ ${w1.day1.weight}`) : null);
   }
   return h("section",{class:"card"},
     h("div",{class:"label"}, "Bench goal"),
@@ -347,10 +376,38 @@ function goalCard(){
 }
 
 function templateButton(t, isToday){
-  return h("button",{class:"titem"+(isToday?" today":""), onclick:()=>startWorkout(t)},
+  return h("div",{class:"titem"+(isToday?" today":"")},
     h("span",{class:"day"}, DOW[t.weekday] || t.label),
     h("span",{class:"t"}, h("b",{}, `${t.label} · ${t.name}`), h("span",{}, `${(t.exercises||[]).length} exercises · ${t.exercises?.[0]?.name || ""}`)),
-    h("span",{class:"chev","aria-hidden":"true"}, "›"));
+    h("span",{class:"tbtns"},
+      h("button",{class:"btn small ghost", onclick:()=>{ state.previewId=t.id; state.view="preview"; render(); window.scrollTo(0,0); }}, "View"),
+      h("button",{class:"btn small primary", onclick:()=>startWorkout(t)}, state.active && state.active.templateId===t.id ? "Resume" : "Start")));
+}
+
+function viewPreview(){
+  const t = templates().find(x=>x.id===state.previewId);
+  if (!t){ state.view="home"; return viewHome(); }
+  const head = h("section",{class:"whead"},
+    h("div",{class:"label"}, `${DOW[t.weekday]} · ${t.label}${t.exercises.some(e=>e.bench)?` · bench week ${currentWeek()}`:""}`),
+    h("h2",{}, t.name),
+    h("div",{class:"row"},
+      h("button",{class:"btn primary",onclick:()=>startWorkout(t)}, state.active && state.active.templateId===t.id ? "Resume workout" : "Start workout"),
+      h("button",{class:"btn ghost",onclick:()=>{ state.view="home"; render(); }}, "Back")));
+  const cards = t.exercises.map(raw=>{
+    const ex = resolveEx(raw);
+    const last = lastFor(ex.name, t.id);
+    const hint = hintFor(ex, last);
+    const w = startWeight(ex, last);
+    return h("section",{class:"card ex"},
+      h("div",{class:"spread"}, h("h3",{}, ex.name),
+        h("a",{class:"form", href: formUrl(ex.name), target:"_blank", rel:"noopener", "aria-label":`Watch ${ex.name} form on YouTube`}, "▶ Form")),
+      h("div",{class:"ex-meta num"}, `${ex.sets} × ${ex.reps}${w!==""?` @ ${w} lb`:""} · rest ${mmss(ex.rest||90)}`),
+      ex.effort ? h("div",{class:"effort"}, ex.effort) : null,
+      ex.note ? h("div",{class:"note"}, ex.note) : null,
+      hint ? h("div",{class:"hint"}, hint) : null,
+      last ? h("div",{class:"ex-last num"}, `Last (${fmtDate(last.date)}): ` + last.sets.map(s=>`${s.w||"BW"}×${s.r}`).join(", ")) : null);
+  });
+  return [head, ...cards];
 }
 
 function viewHome(){
@@ -379,10 +436,12 @@ function startWorkout(t){
   state.active = {
     id: "s-"+now.getTime(), templateId: t.id, templateName: `${t.label} · ${t.name}`,
     status: "active", startedAt: now.toISOString(), date: localDate(now),
-    exercises: (t.exercises||[]).map(ex=>{
+    exercises: (t.exercises||[]).map(raw=>{
+      const ex = resolveEx(raw);
       const last = lastFor(ex.name, t.id);
-      const w = ex.weight ?? (last?.sets?.[0]?.w ?? "");
-      return { name: ex.name, note: ex.note||"", target:{ sets:ex.sets, reps:ex.reps, weight:ex.weight??null, rest:ex.rest||90 },
+      const w = startWeight(ex, last);
+      return { name: ex.name, note: ex.note||"", effort: ex.effort||"", hint: hintFor(ex, last),
+               target:{ sets:ex.sets, reps:ex.reps, weight: w===""?null:w, rest:ex.rest||90 },
                sets: Array.from({length:ex.sets}, ()=>({ w: w, r:"", done:false })) };
     })
   };
@@ -413,7 +472,9 @@ function viewWorkout(){
       h("div",{class:"spread"}, h("h3",{}, ex.name),
         h("a",{class:"form", href: formUrl(ex.name), target:"_blank", rel:"noopener", "aria-label":`Watch ${ex.name} form on YouTube`}, "▶ Form")),
       h("div",{class:"ex-meta num"}, `${t.sets} × ${t.reps}${t.weight!=null?` @ ${t.weight} lb`:""} · rest ${mmss(t.rest)}`),
+      ex.effort ? h("div",{class:"effort"}, ex.effort) : null,
       ex.note ? h("div",{class:"note"}, ex.note) : null,
+      ex.hint ? h("div",{class:"hint"}, ex.hint) : null,
       last ? h("div",{class:"ex-last num"}, `Last (${fmtDate(last.date)}): ` + last.sets.map(s=>`${s.w||"BW"}×${s.r}`).join(", ")) : null,
       h("div",{class:"sets"},
         h("div",{class:"sethead"}, h("span",{},"Set"), h("span",{},"lb"), h("span",{},"Reps"), h("span",{})),
@@ -430,6 +491,16 @@ function viewWorkout(){
 }
 
 function toggleSet(ex, s){
+  if (!s.done && (s.r===""||s.r==null)){
+    const r = parseReps(ex.target.reps);
+    if (!r || r.lo!==r.hi){
+      // rep range or "max": the actual reps have to be typed in
+      const ei = state.active.exercises.indexOf(ex), si = ex.sets.indexOf(s);
+      const el = document.getElementById(`r-${ei}-${si}`);
+      if (el){ el.placeholder="reps?"; el.focus(); }
+      return;
+    }
+  }
   s.done = !s.done;
   if (s.done){
     if ((s.r===""||s.r==null) && num(ex.target.reps)!=null) s.r = String(num(ex.target.reps));

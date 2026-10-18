@@ -1,77 +1,518 @@
 {
   "updated": "2026-10-17",
   "goal": 185,
-  "startMax": 162,
+  "startMax": 170,
   "startDate": "2026-10-19",
-  "note": "Week 1 of the bench plan starts Monday: 4×5 at 140. Check off every set so the reps get logged.",
+  "note": "Plan rebuilt for the machines at Anytime Fitness Mound. Bench starts from your Oct 17 session (135×8 ≈ 170 max). Big lifts: stop 1–2 reps short. Machines and cables: work in the rep range, last set to failure. When every set hits the top of the range, add weight.",
   "benchWeeks": [
-    { "week": 1, "scheme": "4×5", "weight": 140 },
-    { "week": 2, "scheme": "4×5", "weight": 145 },
-    { "week": 3, "scheme": "4×5", "weight": 150 },
-    { "week": 4, "scheme": "4×5", "weight": 155 },
-    { "week": 5, "scheme": "4×3", "weight": 160 },
-    { "week": 6, "scheme": "Deload 3×5", "weight": 135 },
-    { "week": 7, "scheme": "4×3", "weight": 165 },
-    { "week": 8, "scheme": "4×3", "weight": 170 },
-    { "week": 9, "scheme": "3×2", "weight": 175 },
-    { "week": 10, "scheme": "Test single", "weight": 185 }
+    {
+      "week": 1,
+      "label": "4×5",
+      "day1": {
+        "sets": 4,
+        "reps": 5,
+        "weight": 145
+      },
+      "day3": {
+        "sets": 4,
+        "reps": 6,
+        "weight": 130
+      },
+      "day5": {
+        "sets": 3,
+        "reps": 8,
+        "weight": 130
+      }
+    },
+    {
+      "week": 2,
+      "label": "4×5",
+      "day1": {
+        "sets": 4,
+        "reps": 5,
+        "weight": 150
+      },
+      "day3": {
+        "sets": 4,
+        "reps": 6,
+        "weight": 135
+      },
+      "day5": {
+        "sets": 3,
+        "reps": 8,
+        "weight": 135
+      }
+    },
+    {
+      "week": 3,
+      "label": "4×5",
+      "day1": {
+        "sets": 4,
+        "reps": 5,
+        "weight": 155
+      },
+      "day3": {
+        "sets": 4,
+        "reps": 6,
+        "weight": 135
+      },
+      "day5": {
+        "sets": 3,
+        "reps": 8,
+        "weight": 135
+      }
+    },
+    {
+      "week": 4,
+      "label": "4×5",
+      "day1": {
+        "sets": 4,
+        "reps": 5,
+        "weight": 160
+      },
+      "day3": {
+        "sets": 4,
+        "reps": 6,
+        "weight": 140
+      },
+      "day5": {
+        "sets": 3,
+        "reps": 8,
+        "weight": 140
+      }
+    },
+    {
+      "week": 5,
+      "label": "4×3",
+      "day1": {
+        "sets": 4,
+        "reps": 3,
+        "weight": 165
+      },
+      "day3": {
+        "sets": 4,
+        "reps": 6,
+        "weight": 140
+      },
+      "day5": {
+        "sets": 3,
+        "reps": 8,
+        "weight": 140
+      }
+    },
+    {
+      "week": 6,
+      "label": "Deload 3×5",
+      "day1": {
+        "sets": 3,
+        "reps": 5,
+        "weight": 135,
+        "note": "Deload week. Should feel easy."
+      },
+      "day3": {
+        "sets": 3,
+        "reps": 6,
+        "weight": 115
+      },
+      "day5": {
+        "sets": 3,
+        "reps": 8,
+        "weight": 115
+      }
+    },
+    {
+      "week": 7,
+      "label": "4×3",
+      "day1": {
+        "sets": 4,
+        "reps": 3,
+        "weight": 170
+      },
+      "day3": {
+        "sets": 4,
+        "reps": 6,
+        "weight": 145
+      },
+      "day5": {
+        "sets": 3,
+        "reps": 8,
+        "weight": 145
+      }
+    },
+    {
+      "week": 8,
+      "label": "4×3",
+      "day1": {
+        "sets": 4,
+        "reps": 3,
+        "weight": 175
+      },
+      "day3": {
+        "sets": 4,
+        "reps": 6,
+        "weight": 145
+      },
+      "day5": {
+        "sets": 3,
+        "reps": 8,
+        "weight": 145
+      }
+    },
+    {
+      "week": 9,
+      "label": "3×2",
+      "day1": {
+        "sets": 3,
+        "reps": 2,
+        "weight": 180
+      },
+      "day3": {
+        "sets": 3,
+        "reps": 6,
+        "weight": 140
+      },
+      "day5": {
+        "sets": 3,
+        "reps": 6,
+        "weight": 140
+      }
+    },
+    {
+      "week": 10,
+      "label": "Test 185",
+      "day1": {
+        "sets": 1,
+        "reps": 1,
+        "weight": 185,
+        "note": "Test day. Warm up 135×3, 155×2, 170×1, then go for 185. Use a spotter."
+      },
+      "day3": {
+        "sets": 3,
+        "reps": 5,
+        "weight": 120
+      },
+      "day5": {
+        "sets": 3,
+        "reps": 5,
+        "weight": 120
+      }
+    }
   ],
   "templates": [
     {
-      "id": "day1", "label": "Day 1", "name": "Heavy Bench + Back", "weekday": 1,
+      "id": "day1",
+      "label": "Day 1",
+      "name": "Heavy Bench + Back",
+      "weekday": 1,
       "exercises": [
-        { "name": "Bench Press (Barbell)", "sets": 4, "reps": "5", "weight": 140, "rest": 180, "note": "Main lift. Follow the bench plan weight for this week." },
-        { "name": "Incline Bench Press (Smith Machine)", "sets": 3, "reps": "8", "weight": 90, "rest": 90 },
-        { "name": "Lat Pulldown (Cable)", "sets": 4, "reps": "8", "weight": 140, "rest": 90, "note": "Wide grip" },
-        { "name": "Seated Row (Machine)", "sets": 3, "reps": "10", "weight": 150, "rest": 90 },
-        { "name": "Bicep Curl (Barbell)", "sets": 3, "reps": "10", "weight": 60, "rest": 60 },
-        { "name": "Triceps Extension (Cable)", "sets": 3, "reps": "10", "weight": 50, "rest": 60, "note": "Both arms. Elbows pinned to your sides." }
+        {
+          "name": "Bench Press (Barbell)",
+          "bench": "day1",
+          "rest": 180,
+          "effort": "Stop 1–2 reps short. Never to failure.",
+          "note": "Main lift. Weight follows the bench plan."
+        },
+        {
+          "name": "Incline Bench Press (Smith Machine)",
+          "sets": 3,
+          "reps": "8-10",
+          "weight": 90,
+          "rest": 120,
+          "effort": "Stop 1–2 reps short."
+        },
+        {
+          "name": "Pec Fly (Machine)",
+          "sets": 2,
+          "reps": "12-15",
+          "weight": null,
+          "rest": 60,
+          "effort": "Last set to failure.",
+          "note": "Slow stretch at the back of each rep."
+        },
+        {
+          "name": "Lat Pulldown (Cable)",
+          "sets": 3,
+          "reps": "8-12",
+          "weight": 140,
+          "rest": 90,
+          "effort": "1 rep short. Last set to failure.",
+          "note": "Wide grip"
+        },
+        {
+          "name": "Seated Row (Machine)",
+          "sets": 3,
+          "reps": "8-12",
+          "weight": 150,
+          "rest": 90,
+          "effort": "1 rep short. Last set to failure."
+        },
+        {
+          "name": "Bicep Curl (Barbell)",
+          "sets": 3,
+          "reps": "8-12",
+          "weight": 60,
+          "rest": 60,
+          "effort": "1 rep short. Last set to failure."
+        },
+        {
+          "name": "Triceps Pushdown (Cable)",
+          "sets": 3,
+          "reps": "10-15",
+          "weight": 50,
+          "rest": 60,
+          "effort": "1 rep short. Last set to failure.",
+          "note": "Both arms. Elbows pinned to your sides."
+        }
       ]
     },
     {
-      "id": "day2", "label": "Day 2", "name": "Legs A · Quads", "weekday": 2,
+      "id": "day2",
+      "label": "Day 2",
+      "name": "Legs A · Quads",
+      "weekday": 2,
       "exercises": [
-        { "name": "Squat (Barbell)", "sets": 4, "reps": "6", "weight": 115, "rest": 180, "note": "Add 10 lb a week while it moves fast. Use the safety pins." },
-        { "name": "Leg Press", "sets": 3, "reps": "10", "weight": 300, "rest": 120 },
-        { "name": "Bulgarian Split Squat (Dumbbell)", "sets": 3, "reps": "8/leg", "weight": 20, "rest": 90, "note": "20s in each hand" },
-        { "name": "Leg Extension (Machine)", "sets": 3, "reps": "12", "weight": 150, "rest": 75 },
-        { "name": "Standing Calf Raise (Machine)", "sets": 4, "reps": "12", "weight": null, "rest": 60 },
-        { "name": "Hanging Leg Raise", "sets": 3, "reps": "12", "weight": null, "rest": 60 },
-        { "name": "Cable Crunch", "sets": 3, "reps": "15", "weight": null, "rest": 60 }
+        {
+          "name": "Hack Squat",
+          "sets": 4,
+          "reps": "6-8",
+          "weight": null,
+          "rest": 180,
+          "effort": "Stop 1–2 reps short.",
+          "note": "Main quad lift. First week: find a weight you can do 8 with 2 left in the tank."
+        },
+        {
+          "name": "Leg Press",
+          "sets": 3,
+          "reps": "10-12",
+          "weight": 300,
+          "rest": 120,
+          "effort": "1 rep short. Last set to failure."
+        },
+        {
+          "name": "Bulgarian Split Squat (Dumbbell)",
+          "sets": 3,
+          "reps": "8-12/leg",
+          "weight": 20,
+          "rest": 90,
+          "effort": "1–2 reps short.",
+          "note": "Dumbbell in each hand"
+        },
+        {
+          "name": "Leg Extension (Machine)",
+          "sets": 3,
+          "reps": "10-15",
+          "weight": 150,
+          "rest": 75,
+          "effort": "1 rep short. Last set to failure."
+        },
+        {
+          "name": "Hip Adduction (Machine)",
+          "sets": 3,
+          "reps": "10-15",
+          "weight": null,
+          "rest": 60,
+          "effort": "Last set to failure.",
+          "note": "The machine where you squeeze your legs together"
+        },
+        {
+          "name": "Calf Press on Leg Press",
+          "sets": 4,
+          "reps": "10-15",
+          "weight": null,
+          "rest": 60,
+          "effort": "To failure.",
+          "note": "Balls of your feet on the bottom edge of the sled. Full stretch, 1-sec pause at the bottom."
+        },
+        {
+          "name": "Hanging Leg Raise",
+          "sets": 3,
+          "reps": "10-15",
+          "weight": null,
+          "rest": 60,
+          "effort": "To failure.",
+          "note": "Pull-up bar"
+        }
       ]
     },
     {
-      "id": "day3", "label": "Day 3", "name": "Volume Bench + Arms", "weekday": 4,
+      "id": "day3",
+      "label": "Day 3",
+      "name": "Volume Bench + Arms",
+      "weekday": 4,
       "exercises": [
-        { "name": "Bench Press (Barbell)", "sets": 4, "reps": "6", "weight": 125, "rest": 150, "note": "1-second pause on your chest every rep" },
-        { "name": "Bench Press - Close Grip (Barbell)", "sets": 3, "reps": "8", "weight": 115, "rest": 120 },
-        { "name": "Shoulder Press (Machine)", "sets": 3, "reps": "10", "weight": 65, "rest": 90 },
-        { "name": "Preacher Curl (Barbell)", "sets": 3, "reps": "10", "weight": 60, "rest": 60 },
-        { "name": "Hammer Curl (Dumbbell)", "sets": 3, "reps": "10", "weight": 25, "rest": 60, "note": "Go to 30s once you get 10 on every set" },
-        { "name": "Triceps Extension (Cable)", "sets": 3, "reps": "12", "weight": 40, "rest": 60, "note": "Overhead with the rope" }
+        {
+          "name": "Bench Press (Barbell)",
+          "bench": "day3",
+          "rest": 150,
+          "effort": "Stop 1–2 reps short.",
+          "note": "1-second pause on your chest every rep."
+        },
+        {
+          "name": "Bench Press - Close Grip (Barbell)",
+          "sets": 3,
+          "reps": "6-8",
+          "weight": 115,
+          "rest": 120,
+          "effort": "Stop 1–2 reps short."
+        },
+        {
+          "name": "Shoulder Press (Machine)",
+          "sets": 3,
+          "reps": "8-12",
+          "weight": 65,
+          "rest": 90,
+          "effort": "1 rep short. Last set to failure."
+        },
+        {
+          "name": "Preacher Curl (Barbell)",
+          "sets": 3,
+          "reps": "8-12",
+          "weight": 60,
+          "rest": 60,
+          "effort": "1 rep short. Last set to failure."
+        },
+        {
+          "name": "Hammer Curl (Dumbbell)",
+          "sets": 3,
+          "reps": "8-12",
+          "weight": 25,
+          "rest": 60,
+          "effort": "1 rep short. Last set to failure."
+        },
+        {
+          "name": "Triceps Extension (Cable)",
+          "sets": 3,
+          "reps": "10-15",
+          "weight": 40,
+          "rest": 60,
+          "effort": "1 rep short. Last set to failure.",
+          "note": "Overhead with the rope"
+        }
       ]
     },
     {
-      "id": "day4", "label": "Day 4", "name": "Legs B · Hamstrings/Glutes", "weekday": 5,
+      "id": "day4",
+      "label": "Day 4",
+      "name": "Legs B · Hamstrings/Glutes",
+      "weekday": 5,
       "exercises": [
-        { "name": "Romanian Deadlift (Barbell)", "sets": 4, "reps": "8", "weight": 115, "rest": 150 },
-        { "name": "Walking Lunge (Dumbbell)", "sets": 3, "reps": "10/leg", "weight": 25, "rest": 90, "note": "25s in each hand" },
-        { "name": "Seated Leg Curl (Machine)", "sets": 3, "reps": "10", "weight": 160, "rest": 75 },
-        { "name": "Seated Calf Raise", "sets": 4, "reps": "15", "weight": null, "rest": 60 },
-        { "name": "Ab Wheel", "sets": 3, "reps": "10", "weight": null, "rest": 60 },
-        { "name": "Plank", "sets": 3, "reps": "45 sec", "weight": null, "rest": 60 }
+        {
+          "name": "Romanian Deadlift (Barbell)",
+          "sets": 4,
+          "reps": "6-8",
+          "weight": 115,
+          "rest": 150,
+          "effort": "Stop 1–2 reps short.",
+          "note": "On the deadlift platform"
+        },
+        {
+          "name": "Hip Thrust (Machine)",
+          "sets": 3,
+          "reps": "8-12",
+          "weight": null,
+          "rest": 90,
+          "effort": "1 rep short. Last set to failure.",
+          "note": "Booty builder. Squeeze 1 sec at the top."
+        },
+        {
+          "name": "Seated Leg Curl (Machine)",
+          "sets": 3,
+          "reps": "10-12",
+          "weight": 160,
+          "rest": 75,
+          "effort": "1 rep short. Last set to failure."
+        },
+        {
+          "name": "Walking Lunge (Dumbbell)",
+          "sets": 2,
+          "reps": "10/leg",
+          "weight": 25,
+          "rest": 90,
+          "effort": "1–2 reps short.",
+          "note": "On the turf"
+        },
+        {
+          "name": "Calf Raise (Smith Machine)",
+          "sets": 4,
+          "reps": "10-15",
+          "weight": null,
+          "rest": 60,
+          "effort": "To failure.",
+          "note": "Stand on a plate so your heels can drop below your toes."
+        },
+        {
+          "name": "Crunch (Machine)",
+          "sets": 3,
+          "reps": "10-15",
+          "weight": null,
+          "rest": 60,
+          "effort": "To failure.",
+          "note": "Sit-up machine"
+        }
       ]
     },
     {
-      "id": "day5", "label": "Day 5", "name": "Bench Frequency + Arm Pump", "weekday": 6,
+      "id": "day5",
+      "label": "Day 5",
+      "name": "Bench Frequency + Arm Pump",
+      "weekday": 6,
       "exercises": [
-        { "name": "Bench Press (Barbell)", "sets": 3, "reps": "8", "weight": 120, "rest": 120 },
-        { "name": "Chest Press (Machine)", "sets": 3, "reps": "10", "weight": 110, "rest": 90 },
-        { "name": "Incline Curl (Dumbbell)", "sets": 3, "reps": "12", "weight": 20, "rest": 60 },
-        { "name": "Triceps Pushdown (Cable)", "sets": 3, "reps": "12", "weight": null, "rest": 60, "note": "Both arms, rope. Spread the rope at the bottom." },
-        { "name": "Chest Dip", "sets": 3, "reps": "max", "weight": null, "rest": 90 },
-        { "name": "Face Pull (Cable)", "sets": 3, "reps": "15", "weight": null, "rest": 60 },
-        { "name": "Sit Up", "sets": 3, "reps": "15", "weight": null, "rest": 45 }
+        {
+          "name": "Bench Press (Barbell)",
+          "bench": "day5",
+          "rest": 120,
+          "effort": "Stop 1–2 reps short."
+        },
+        {
+          "name": "Chest Press (Machine)",
+          "sets": 3,
+          "reps": "8-12",
+          "weight": 110,
+          "rest": 90,
+          "effort": "1 rep short. Last set to failure."
+        },
+        {
+          "name": "Chest Dip",
+          "sets": 3,
+          "reps": "6-12",
+          "weight": null,
+          "rest": 90,
+          "effort": "1–2 reps short. Last set to failure.",
+          "note": "Lean forward a little. Use the assisted dip machine if you can't get 6 clean bodyweight reps, and type the assist amount as the weight. Less assist over time = progress."
+        },
+        {
+          "name": "Incline Curl (Dumbbell)",
+          "sets": 3,
+          "reps": "10-12",
+          "weight": 20,
+          "rest": 60,
+          "effort": "1 rep short. Last set to failure."
+        },
+        {
+          "name": "Triceps Pushdown (Cable)",
+          "sets": 3,
+          "reps": "10-15",
+          "weight": 50,
+          "rest": 60,
+          "effort": "1 rep short. Last set to failure.",
+          "note": "Both arms, rope. Spread the rope at the bottom."
+        },
+        {
+          "name": "Reverse Fly (Machine)",
+          "sets": 3,
+          "reps": "12-15",
+          "weight": 100,
+          "rest": 60,
+          "effort": "Last set to failure."
+        },
+        {
+          "name": "Cable Crunch",
+          "sets": 3,
+          "reps": "10-15",
+          "weight": null,
+          "rest": 45,
+          "effort": "To failure."
+        }
       ]
     }
   ]
