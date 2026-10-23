@@ -1,9 +1,9 @@
 {
-  "updated": "2026-10-17",
+  "updated": "2026-10-23",
   "goal": 185,
   "startMax": 170,
   "startDate": "2026-10-19",
-  "note": "Plan rebuilt for the machines at Anytime Fitness Mound. Bench starts from your Oct 17 session (135×8 ≈ 170 max). Big lifts: stop 1–2 reps short. Machines and cables: work in the rep range, last set to failure. When every set hits the top of the range, add weight.",
+  "note": "This week: arms Friday, legs (Day 4) Saturday, skip Day 5. Leg soreness after your first real leg day is normal and fades fast. Saturday, stop 2–3 reps short on everything.",
   "review": null,
   "graphs": [
     "Bench Press (Barbell)",
@@ -512,6 +512,73 @@
           "rest": 60,
           "effort": "1 rep short. Last set to failure.",
           "note": "Both arms, rope. Spread the rope at the bottom."
+        },
+        {
+          "name": "Reverse Fly (Machine)",
+          "sets": 3,
+          "reps": "12-15",
+          "weight": 100,
+          "rest": 60,
+          "effort": "Last set to failure."
+        },
+        {
+          "name": "Cable Crunch",
+          "sets": 3,
+          "reps": "10-15",
+          "weight": null,
+          "rest": 45,
+          "effort": "To failure."
+        }
+      ]
+    },
+    {
+      "id": "arms",
+      "label": "Extra",
+      "name": "Arms + Rear Delts",
+      "weekday": null,
+      "exercises": [
+        {
+          "name": "Preacher Curl (Barbell)",
+          "sets": 3,
+          "reps": "8-12",
+          "weight": 50,
+          "rest": 75,
+          "effort": "1 rep short. Last set to failure.",
+          "note": "Machine preacher curl works too. Slow on the way down."
+        },
+        {
+          "name": "Triceps Extension (Cable)",
+          "sets": 3,
+          "reps": "10-15",
+          "weight": 40,
+          "rest": 75,
+          "effort": "1 rep short. Last set to failure.",
+          "note": "Overhead with the rope"
+        },
+        {
+          "name": "Hammer Curl (Dumbbell)",
+          "sets": 3,
+          "reps": "8-12",
+          "weight": 25,
+          "rest": 60,
+          "effort": "1 rep short. Last set to failure."
+        },
+        {
+          "name": "Triceps Pushdown (Cable)",
+          "sets": 3,
+          "reps": "10-15",
+          "weight": 45,
+          "rest": 60,
+          "effort": "1 rep short. Last set to failure.",
+          "note": "Both arms, rope. 45 so you stay in range on all 3 sets."
+        },
+        {
+          "name": "Incline Curl (Dumbbell)",
+          "sets": 2,
+          "reps": "10-12",
+          "weight": 20,
+          "rest": 60,
+          "effort": "Last set to failure."
         },
         {
           "name": "Reverse Fly (Machine)",
