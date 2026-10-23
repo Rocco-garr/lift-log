@@ -288,13 +288,13 @@
       "weekday": 2,
       "exercises": [
         {
-          "name": "Hack Squat",
+          "name": "Squat (Smith Machine)",
           "sets": 4,
           "reps": "6-8",
-          "weight": null,
+          "weight": 95,
           "rest": 180,
           "effort": "Stop 1–2 reps short.",
-          "note": "Main quad lift. First week: find a weight you can do 8 with 2 left in the tank."
+          "note": "Main quad lift. Feet slightly in front of the bar, sit straight down to at least parallel. 95 = bar + 25s; adjust the first week. If the hack squat gets fixed, either one works."
         },
         {
           "name": "Leg Press",
