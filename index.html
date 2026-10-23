@@ -685,7 +685,7 @@ function viewPreview(){
   if (!t){ state.view="home"; return viewHome(); }
   const exs = effectiveExercises(t);
   const head = h("section",{class:"whead"},
-    h("div",{class:"label"}, `${DOW[t.weekday]} · ${t.label}${t.exercises.some(e=>e.bench)?` · bench week ${currentWeek()}`:""} · about ${estMinutes(exs)} min`),
+    h("div",{class:"label"}, `${DOW[t.weekday] || "Any day"} · ${t.label}${t.exercises.some(e=>e.bench)?` · bench week ${currentWeek()}`:""} · about ${estMinutes(exs)} min`),
     h("h2",{}, t.name),
     h("div",{class:"row"},
       h("button",{class:"btn primary",onclick:()=>startWorkout(t)}, state.active && state.active.templateId===t.id ? "Resume workout" : "Start workout"),
