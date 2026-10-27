@@ -1120,11 +1120,33 @@ function viewSettings(){
 /* ---------- rest timer ---------- */
 const restbar=document.getElementById("restbar"), restclock=document.getElementById("restclock"), restlbl=document.getElementById("restlbl"), hdrrest=document.getElementById("hdrrest");
 let restTick=null, buzzed=false, actx=null;
-function unlockAudio(){ try{ actx = actx || new (window.AudioContext||window.webkitAudioContext)(); if (actx.state==="suspended") actx.resume(); }catch(e){ actx=null; } }
-function beep(){
+function unlockAudio(){
+  try{
+    // "transient": a short sound that dips the music in your headphones instead of stopping it
+    if (navigator.audioSession) navigator.audioSession.type = "transient";
+    actx = actx || new (window.AudioContext||window.webkitAudioContext)();
+    if (actx.state!=="running") actx.resume();
+  }catch(e){ actx=null; }
+}
+// keep the sound unlocked: iPhone pauses audio after a while, any tap wakes it back up
+document.addEventListener("pointerdown", ()=>{ if (actx && actx.state!=="running") { try{ actx.resume(); }catch(e){} } }, {passive:true});
+/* bell ding: a struck-bell tone built from a few inharmonic partials that ring out */
+function ding(){
   if (!actx) return;
-  try{ [0,0.25,0.5].forEach(t=>{ const o=actx.createOscillator(), g=actx.createGain(); o.frequency.value=880; o.connect(g); g.connect(actx.destination);
-    const s=actx.currentTime+t; g.gain.setValueAtTime(0.0001,s); g.gain.exponentialRampToValueAtTime(0.4,s+0.02); g.gain.exponentialRampToValueAtTime(0.0001,s+0.18); o.start(s); o.stop(s+0.2); }); }catch(e){}
+  try{
+    if (actx.state!=="running") actx.resume();
+    const t0 = actx.currentTime + 0.02;
+    const master = actx.createGain(); master.gain.value = 0.9; master.connect(actx.destination);
+    const base = 1046.5; // C6
+    [[1,0.55,2.2],[2.0,0.22,1.6],[2.76,0.28,1.2],[5.4,0.12,0.6],[8.93,0.06,0.35]].forEach(([ratio, amp, decay])=>{
+      const o = actx.createOscillator(), g = actx.createGain();
+      o.type = "sine"; o.frequency.value = base*ratio;
+      g.gain.setValueAtTime(0.0001, t0);
+      g.gain.exponentialRampToValueAtTime(amp, t0+0.005);
+      g.gain.exponentialRampToValueAtTime(0.0001, t0+decay);
+      o.connect(g); g.connect(master); o.start(t0); o.stop(t0+decay+0.05);
+    });
+  }catch(e){}
 }
 function startRest(sec, name){ unlockAudio(); state.rest={ end: Date.now()+sec*1000, name }; buzzed=false; restbar.hidden=false; tickRest(); clearInterval(restTick); restTick=setInterval(tickRest, 250); }
 function stopRest(){ state.rest=null; clearInterval(restTick); restbar.hidden=true; restbar.classList.remove("over"); document.body.classList.remove("resting"); }
@@ -1136,7 +1158,7 @@ function tickRest(){
   document.body.classList.add("resting");
   restlbl.textContent = left>=0 ? `Rest · next: ${state.rest.name}` : "Rest's up. Next set.";
   restbar.classList.toggle("over", left<0);
-  if (left<0 && !buzzed){ buzzed=true; beep(); buzz([200,100,200]); }
+  if (left<0 && !buzzed){ buzzed=true; ding(); buzz([200,100,200]); }
 }
 document.getElementById("rest-skip").addEventListener("click", stopRest);
 document.getElementById("rest-add").addEventListener("click", ()=>{ if(state.rest){ state.rest.end = Math.max(state.rest.end, Date.now()) + 30000; buzzed=false; tickRest(); } });
