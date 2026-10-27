@@ -1102,6 +1102,13 @@ function viewSettings(){
         h("li",{}, "Permissions → Contents: Read and write. Expiration: up to a year."),
         h("li",{}, "Copy the token, paste it above, tap Save & sync."))),
     h("section",{class:"card"},
+      h("div",{class:"label"},"Rest timer sound"),
+      h("p",{class:"small"}, "A bell dings when rest is over. Keep Lift Log open on screen; a locked phone can't play it."),
+      h("label",{class:"row",for:"loud-ding",style:"gap:10px;align-items:center"},
+        h("input",{type:"checkbox",id:"loud-ding",checked: LS.get("loudDing", false) || null, onchange:(e)=>{ LS.set("loudDing", e.target.checked); unlockAudio(); }}),
+        h("span",{class:"small"}, "Ring even when my phone is on silent (may pause my music)")),
+      h("div",{class:"row"}, h("button",{class:"btn primary",onclick:()=>{ unlockAudio(); setTimeout(ding, 60); }}, "Test ding"))),
+    h("section",{class:"card"},
       h("div",{class:"label"},"Weekly review"),
       h("p",{class:"small"}, next ? `Next review: ${fmtDate(localDate(next))} evening. Claude reads every workout from the week, then updates weights, reps and exercises for the week after. Your "How did it feel?" answers and notes go into that review.` : "The plan is finished. Ask Claude for the next block."),
       h("p",{class:"muted small"}, `Plan updated ${state.plan?.updated || "—"}${state.plan?.review?.week ? ` · last review: week ${state.plan.review.week}` : ""}.`)),
@@ -1123,7 +1130,8 @@ let restTick=null, buzzed=false, actx=null;
 function unlockAudio(){
   try{
     // "transient": a short sound that dips the music in your headphones instead of stopping it
-    if (navigator.audioSession) navigator.audioSession.type = "transient";
+    // "playback" rings through the silent switch but can pause other audio
+    if (navigator.audioSession) navigator.audioSession.type = LS.get("loudDing", false) ? "playback" : "transient";
     actx = actx || new (window.AudioContext||window.webkitAudioContext)();
     if (actx.state!=="running") actx.resume();
   }catch(e){ actx=null; }
