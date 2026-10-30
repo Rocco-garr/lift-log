@@ -597,6 +597,59 @@
           "effort": "To failure."
         }
       ]
+    },
+    {
+      "id": "home-abs",
+      "label": "Home",
+      "name": "Abs (no equipment)",
+      "weekday": null,
+      "exercises": [
+        {
+          "name": "Reverse Crunch",
+          "sets": 3,
+          "reps": "10-15",
+          "weight": null,
+          "rest": 45,
+          "effort": "Last set to failure.",
+          "note": "Curl your hips off the floor toward your chest. Slow on the way down, no swinging."
+        },
+        {
+          "name": "Crunch",
+          "sets": 3,
+          "reps": "12-20",
+          "weight": null,
+          "rest": 45,
+          "effort": "Last set to failure.",
+          "note": "Lower back stays down. Squeeze 2 sec at the top."
+        },
+        {
+          "name": "Lying Leg Raise",
+          "sets": 3,
+          "reps": "10-15",
+          "weight": null,
+          "rest": 45,
+          "effort": "1–2 reps short.",
+          "note": "Hands under your hips. Lower until your back starts to lift, then stop."
+        },
+        {
+          "name": "Side Plank",
+          "sets": 2,
+          "reps": "30-45 sec/side",
+          "weight": null,
+          "rest": 30,
+          "effort": "Hold the full time.",
+          "note": "Log seconds as reps."
+        },
+        {
+          "name": "Dead Bug",
+          "sets": 2,
+          "reps": "8-10/side",
+          "weight": null,
+          "rest": 30,
+          "effort": "Slow and controlled.",
+          "note": "Back pressed flat the whole time."
+        }
+      ]
     }
   ],
   "library": {
