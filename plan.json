@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-23",
+  "updated": "2026-11-02",
   "goal": 185,
   "startMax": 170,
   "startDate": "2026-10-19",
@@ -241,9 +241,9 @@
           "sets": 2,
           "reps": "12-15",
           "weight": null,
-          "rest": 60,
+          "rest": 90,
           "effort": "Last set to failure.",
-          "note": "Slow stretch at the back of each rep."
+          "note": "Pause 1 sec in the full stretch at the back of each rep. Do 3 sets on any week you miss Day 5."
         },
         {
           "name": "Lat Pulldown (Cable)",
