@@ -232,7 +232,7 @@
           "name": "Incline Bench Press (Smith Machine)",
           "sets": 3,
           "reps": "8-10",
-          "weight": 90,
+          "weight": 80,
           "rest": 120,
           "effort": "Stop 1–2 reps short."
         },
@@ -261,23 +261,6 @@
           "weight": 150,
           "rest": 90,
           "effort": "1 rep short. Last set to failure."
-        },
-        {
-          "name": "Bicep Curl (Barbell)",
-          "sets": 3,
-          "reps": "8-12",
-          "weight": 60,
-          "rest": 60,
-          "effort": "1 rep short. Last set to failure."
-        },
-        {
-          "name": "Triceps Pushdown (Cable)",
-          "sets": 3,
-          "reps": "10-15",
-          "weight": 50,
-          "rest": 60,
-          "effort": "1 rep short. Last set to failure.",
-          "note": "Both arms. Elbows pinned to your sides."
         }
       ]
     },
