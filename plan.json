@@ -1,10 +1,27 @@
 {
-  "updated": "2026-11-02",
+  "updated": "2026-11-08",
   "goal": 185,
   "startMax": 170,
   "startDate": "2026-10-19",
   "note": "This week: arms Friday, legs (Day 4) Saturday, skip Day 5. Leg soreness after your first real leg day is normal and fades fast. Saturday, stop 2–3 reps short on everything.",
-  "review": null,
+  "review": {
+    "week": 3,
+    "date": "2026-11-08",
+    "summary": "4 of 5 workouts this week (Friday’s legs day was missed), with PRs on close-grip bench, lat pulldown, seated row, Smith incline, leg extension and cable crunch. Monday’s 155 bench was too heavy (2 reps on the first two sets), so next Monday drops to 150 to rebuild, while Thursday and Saturday bench still step up to 140. Leg press earned a bump, and machine shoulder press and preacher curls have stalled, so they get swapped.",
+    "changes": [
+      "Week 4 day1 bench: 160 → 150 lb (missed reps on 4×5 @ 155)",
+      "Leg Press: 300 → 320 lb",
+      "Reverse Fly (Machine): 100 → 90 lb (first set under 12)",
+      "Pec Fly (Machine): weight set to 105 lb",
+      "Hip Adduction (Machine): weight set to 55 lb",
+      "Calf Press on Leg Press: weight set to 90 lb",
+      "Chest Dip: assist set to 35 lb",
+      "Cable Crunch: weight set to 50 lb",
+      "Day 3: Shoulder Press (Machine) → Shoulder Press (Dumbbell) (stalled at 65 lb for 3 weeks, reps falling)",
+      "Day 3: Preacher Curl (Barbell) → Bicep Curl (Barbell) @ 60 lb (stalled at 60 lb for 3 weeks)"
+    ],
+    "next": "Own all 4×5 at 150 on Monday with clean reps, and get Friday’s legs day in."
+  },
   "graphs": [
     "Bench Press (Barbell)",
     "Incline Bench Press (Smith Machine)",
@@ -84,7 +101,7 @@
       "day1": {
         "sets": 4,
         "reps": 5,
-        "weight": 160
+        "weight": 150
       },
       "day3": {
         "sets": 4,
@@ -240,7 +257,7 @@
           "name": "Pec Fly (Machine)",
           "sets": 2,
           "reps": "12-15",
-          "weight": null,
+          "weight": 105,
           "rest": 90,
           "effort": "Last set to failure.",
           "note": "Pause 1 sec in the full stretch at the back of each rep. Do 3 sets on any week you miss Day 5."
@@ -283,7 +300,7 @@
           "name": "Leg Press",
           "sets": 3,
           "reps": "10-12",
-          "weight": 300,
+          "weight": 320,
           "rest": 120,
           "effort": "1 rep short. Last set to failure."
         },
@@ -308,7 +325,7 @@
           "name": "Hip Adduction (Machine)",
           "sets": 3,
           "reps": "10-15",
-          "weight": null,
+          "weight": 55,
           "rest": 60,
           "effort": "Last set to failure.",
           "note": "The machine where you squeeze your legs together"
@@ -317,7 +334,7 @@
           "name": "Calf Press on Leg Press",
           "sets": 4,
           "reps": "10-15",
-          "weight": null,
+          "weight": 90,
           "rest": 60,
           "effort": "To failure.",
           "note": "Balls of your feet on the bottom edge of the sled. Full stretch, 1-sec pause at the bottom."
@@ -355,15 +372,15 @@
           "effort": "Stop 1–2 reps short."
         },
         {
-          "name": "Shoulder Press (Machine)",
+          "name": "Shoulder Press (Dumbbell)",
           "sets": 3,
           "reps": "8-12",
-          "weight": 65,
+          "weight": null,
           "rest": 90,
           "effort": "1 rep short. Last set to failure."
         },
         {
-          "name": "Preacher Curl (Barbell)",
+          "name": "Bicep Curl (Barbell)",
           "sets": 3,
           "reps": "8-12",
           "weight": 60,
@@ -474,7 +491,7 @@
           "name": "Chest Dip",
           "sets": 3,
           "reps": "6-12",
-          "weight": null,
+          "weight": 35,
           "rest": 90,
           "effort": "1–2 reps short. Last set to failure.",
           "note": "Lean forward a little. Use the assisted dip machine if you can't get 6 clean bodyweight reps, and type the assist amount as the weight. Less assist over time = progress."
@@ -500,7 +517,7 @@
           "name": "Reverse Fly (Machine)",
           "sets": 3,
           "reps": "12-15",
-          "weight": 100,
+          "weight": 90,
           "rest": 60,
           "effort": "Last set to failure."
         },
@@ -508,7 +525,7 @@
           "name": "Cable Crunch",
           "sets": 3,
           "reps": "10-15",
-          "weight": null,
+          "weight": 50,
           "rest": 45,
           "effort": "To failure."
         }
