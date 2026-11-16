@@ -1,26 +1,18 @@
 {
-  "updated": "2026-11-08",
+  "updated": "2026-11-15",
   "goal": 185,
   "startMax": 170,
   "startDate": "2026-10-19",
   "note": "This week: arms Friday, legs (Day 4) Saturday, skip Day 5. Leg soreness after your first real leg day is normal and fades fast. Saturday, stop 2–3 reps short on everything.",
   "review": {
-    "week": 3,
-    "date": "2026-11-08",
-    "summary": "4 of 5 workouts this week (Friday’s legs day was missed), with PRs on close-grip bench, lat pulldown, seated row, Smith incline, leg extension and cable crunch. Monday’s 155 bench was too heavy (2 reps on the first two sets), so next Monday drops to 150 to rebuild, while Thursday and Saturday bench still step up to 140. Leg press earned a bump, and machine shoulder press and preacher curls have stalled, so they get swapped.",
+    "week": 4,
+    "date": "2026-11-15",
+    "summary": "Only Tuesday’s legs day made it into the log this week, but it was a good one, with PRs on leg press, Bulgarian split squats and Smith calf raises. Because no bench days were logged, week 4 repeats next week (Monday 4×5 @ 150, Thursday 4×6 @ 140, Saturday 3×8 @ 140) and every accessory weight holds. If you trained other days that haven’t synced from your phone yet, they weren’t counted.",
     "changes": [
-      "Week 4 day1 bench: 160 → 150 lb (missed reps on 4×5 @ 155)",
-      "Leg Press: 300 → 320 lb",
-      "Reverse Fly (Machine): 100 → 90 lb (first set under 12)",
-      "Pec Fly (Machine): weight set to 105 lb",
-      "Hip Adduction (Machine): weight set to 55 lb",
-      "Calf Press on Leg Press: weight set to 90 lb",
-      "Chest Dip: assist set to 35 lb",
-      "Cable Crunch: weight set to 50 lb",
-      "Day 3: Shoulder Press (Machine) → Shoulder Press (Dumbbell) (stalled at 65 lb for 3 weeks, reps falling)",
-      "Day 3: Preacher Curl (Barbell) → Bicep Curl (Barbell) @ 60 lb (stalled at 60 lb for 3 weeks)"
+      "Week 4 repeated (only 1 session logged, no bench days): new week 5 = 4×5 @ 150 / 4×6 @ 140 / 3×8 @ 140; rest of the plan shifts out one week, test now week 11",
+      "Library: added Squat (Smith Machine) and the 5 home-abs exercises (templates named them but the How/Swap buttons had no entry)"
     ],
-    "next": "Own all 4×5 at 150 on Monday with clean reps, and get Friday’s legs day in."
+    "next": "Get all three bench days in, starting with clean 4×5 at 150 on Monday."
   },
   "graphs": [
     "Bench Press (Barbell)",
@@ -116,6 +108,25 @@
     },
     {
       "week": 5,
+      "label": "4×5",
+      "day1": {
+        "sets": 4,
+        "reps": 5,
+        "weight": 150
+      },
+      "day3": {
+        "sets": 4,
+        "reps": 6,
+        "weight": 140
+      },
+      "day5": {
+        "sets": 3,
+        "reps": 8,
+        "weight": 140
+      }
+    },
+    {
+      "week": 6,
       "label": "4×3",
       "day1": {
         "sets": 4,
@@ -134,7 +145,7 @@
       }
     },
     {
-      "week": 6,
+      "week": 7,
       "label": "Deload 3×5",
       "day1": {
         "sets": 3,
@@ -154,7 +165,7 @@
       }
     },
     {
-      "week": 7,
+      "week": 8,
       "label": "4×3",
       "day1": {
         "sets": 4,
@@ -173,7 +184,7 @@
       }
     },
     {
-      "week": 8,
+      "week": 9,
       "label": "4×3",
       "day1": {
         "sets": 4,
@@ -192,7 +203,7 @@
       }
     },
     {
-      "week": 9,
+      "week": 10,
       "label": "3×2",
       "day1": {
         "sets": 3,
@@ -211,7 +222,7 @@
       }
     },
     {
-      "week": 10,
+      "week": 11,
       "label": "Test 185",
       "day1": {
         "sets": 1,
@@ -1311,6 +1322,68 @@
       "swaps": [
         "Cable Crunch",
         "Crunch (Machine)"
+      ]
+    },
+    "Squat (Smith Machine)": {
+      "m": "Quads + glutes",
+      "e": "Smith machine",
+      "inc": 10,
+      "how": "Bar on your upper back, feet slightly in front of the bar. Brace and sit straight down to at least parallel, knees tracking over toes. Drive up through your whole foot.",
+      "swaps": [
+        "Hack Squat",
+        "Leg Press",
+        "Goblet Squat (Dumbbell)"
+      ],
+      "main": true
+    },
+    "Reverse Crunch": {
+      "m": "Abs",
+      "e": "Bodyweight",
+      "inc": 0,
+      "how": "Lie on your back, knees bent, hands by your hips. Curl your hips off the floor toward your chest. Lower slow without swinging.",
+      "swaps": [
+        "Hanging Knee Raise",
+        "Hanging Leg Raise"
+      ]
+    },
+    "Crunch": {
+      "m": "Abs",
+      "e": "Bodyweight",
+      "inc": 0,
+      "how": "Knees bent, lower back pressed into the floor. Curl your shoulders up by rounding your upper back, squeeze 2 seconds, lower slow.",
+      "swaps": [
+        "Crunch (Machine)",
+        "Cable Crunch"
+      ]
+    },
+    "Lying Leg Raise": {
+      "m": "Abs",
+      "e": "Bodyweight",
+      "inc": 0,
+      "how": "Hands under your hips, legs straight. Raise legs to vertical, then lower slowly until your lower back starts to lift, and stop there.",
+      "swaps": [
+        "Hanging Leg Raise",
+        "Reverse Crunch"
+      ]
+    },
+    "Side Plank": {
+      "m": "Obliques",
+      "e": "Bodyweight",
+      "inc": 0,
+      "how": "Elbow under your shoulder, body in a straight line from head to feet. Push your hips up and hold without sagging. Log seconds as reps.",
+      "swaps": [
+        "Plank (Weighted)",
+        "Dead Bug"
+      ]
+    },
+    "Dead Bug": {
+      "m": "Abs",
+      "e": "Bodyweight",
+      "inc": 0,
+      "how": "On your back, arms up and knees over hips. Press your lower back flat, then slowly lower the opposite arm and leg and return. Alternate sides.",
+      "swaps": [
+        "Lying Leg Raise",
+        "Reverse Crunch"
       ]
     }
   }
