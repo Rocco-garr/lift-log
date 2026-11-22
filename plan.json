@@ -688,6 +688,15 @@
           "effort": "To failure."
         },
         {
+          "name": "Crunch (Machine)",
+          "sets": 3,
+          "reps": "10-15",
+          "weight": null,
+          "rest": 60,
+          "effort": "To failure.",
+          "note": "Sit-up machine"
+        },
+        {
           "name": "Plank (Weighted)",
           "sets": 3,
           "reps": "30-60",
