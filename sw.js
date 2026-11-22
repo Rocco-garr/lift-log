@@ -1,5 +1,5 @@
 // Lift Log service worker: app works offline; plan.json is fetched fresh when online.
-const VERSION = "ll-v5";
+const VERSION = "ll-v6";
 const SHELL = ["./", "./index.html", "./manifest.webmanifest", "./plan.json", "./icon-192.png", "./icon-512.png", "./apple-touch-icon.png"];
 
 self.addEventListener("install", e => {

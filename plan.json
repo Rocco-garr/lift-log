@@ -611,9 +611,10 @@
     },
     {
       "id": "home-abs",
-      "label": "Home",
-      "name": "Abs (no equipment)",
-      "weekday": null,
+      "label": "Optional",
+      "name": "Abs · Home",
+      "weekday": 0,
+      "optional": true,
       "exercises": [
         {
           "name": "Reverse Crunch",
@@ -659,6 +660,50 @@
           "rest": 30,
           "effort": "Slow and controlled.",
           "note": "Back pressed flat the whole time."
+        }
+      ]
+    },
+    {
+      "id": "gym-abs",
+      "label": "Optional",
+      "name": "Abs · Gym",
+      "weekday": 0,
+      "optional": true,
+      "exercises": [
+        {
+          "name": "Hanging Leg Raise",
+          "sets": 3,
+          "reps": "10-15",
+          "weight": null,
+          "rest": 60,
+          "effort": "To failure.",
+          "note": "Pull-up bar. Bend your knees if straight legs get sloppy."
+        },
+        {
+          "name": "Cable Crunch",
+          "sets": 3,
+          "reps": "10-15",
+          "weight": 50,
+          "rest": 45,
+          "effort": "To failure."
+        },
+        {
+          "name": "Plank (Weighted)",
+          "sets": 3,
+          "reps": "30-60",
+          "weight": null,
+          "rest": 45,
+          "effort": "Hold the full time.",
+          "note": "Log seconds as reps. Add a plate on your back once 60 seconds is easy."
+        },
+        {
+          "name": "Side Plank",
+          "sets": 2,
+          "reps": "30-45 sec/side",
+          "weight": null,
+          "rest": 30,
+          "effort": "Hold the full time.",
+          "note": "Log seconds as reps."
         }
       ]
     }

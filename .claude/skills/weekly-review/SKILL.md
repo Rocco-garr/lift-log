@@ -15,10 +15,11 @@ Runs every Sunday evening (America/Chicago) from a scheduled task in a fresh clo
 |---|---|
 | Plan week | Monday–Sunday blocks counted from `plan.startDate` (2026-10-19, a Monday). Week 1 = Oct 19–25. Sessions logged before the start carry `week: 0`. |
 | `benchWeeks[]` | The bench progression, one entry per plan week: `{week, label, day1:{sets,reps,weight,note?}, day3:{…}, day5:{…}}`. Template exercises with `"bench":"day1"` etc. take their sets/reps/weight from here. |
-| `templates[]` | 5 workouts, ids `day1`…`day5`, `weekday` 1=Mon, 2=Tue, 4=Thu, 5=Fri, 6=Sat. Each exercise: `{name, sets, reps, weight, rest, effort, note?}`. `reps` is `"8-12"`, `"10"`, `"8-12/leg"` or `"10/leg"`. `weight: null` = "find your weight". |
+| `templates[]` | 5 program workouts, ids `day1`…`day5`, `weekday` 1=Mon, 2=Tue, 4=Thu, 5=Fri, 6=Sat. Extras may follow: `arms` (no weekday) and **optional** templates (`"optional": true`, e.g. `home-abs` and `gym-abs` on Sunday, `weekday` 0). Each exercise: `{name, sets, reps, weight, rest, effort, note?}`. `reps` is `"8-12"`, `"10"`, `"8-12/leg"` or `"10/leg"`. `weight: null` = "find your weight". |
 | `library{}` | One entry per exercise, keyed by exact name: `{m, e, inc, how, swaps[], main?}`. `inc` = lb to add when progressing (dumbbells: per hand). `swaps` = acceptable replacements. Powers the app's How and Swap buttons. |
 | Double progression | Work inside the rep range; when every set hits the top, add `inc`; when set 1 can't reach the bottom, take `inc` off. Big lifts stop 1–2 reps short of failure; machines/cables take the last set to failure. Bench never goes to failure and follows `benchWeeks` exactly. |
 | e1RM | Estimated 1-rep max, Epley: `w × (1 + r/30)`, only for 1–15 reps. |
+| Optional workout | A session whose `templateId` is a template with `"optional": true`. **Leave it out of the review entirely:** it doesn't count toward attendance, its exercises don't count for progression, stalls or swaps, and you never edit optional templates. |
 | Session | `{id, templateId, date, week, feel?, notes?, prs?[], exercises[]}`; each exercise `{name, swappedFrom?, target{sets,reps,weight,rest}, sets[{w,r}]}`. `w: 0` = bodyweight. `feel` is Easy / Good / Hard / Beat up. `notes` is text the lifter typed for Claude. `prs` = `{name, v, prev, set}`, new estimated maxes computed at finish. |
 
 ## 1. Get the data
@@ -48,7 +49,7 @@ const week=Math.floor((sun-new Date(p.startDate+"T00:00:00Z"))/6048e5)+1;
 console.log(JSON.stringify({today,week,from:mon.toISOString().slice(0,10),to:sun.toISOString().slice(0,10)}));'
 ```
 
-If the skill was invoked with a week number, review that week instead (from = startDate + 7 × (week − 1)). The week's sessions are the files whose `date` falls in from…to (or whose `week` field equals it). If `plan.review.week` already equals this week, it was reviewed; stop unless asked to redo it. If `week ≤ 0` (plan not started) or the week has no sessions: set `review` to `{week, date, summary: two sentences saying so, changes: [], next: one sentence}`, bump `updated`, change nothing else, and skip to step 6.
+If the skill was invoked with a week number, review that week instead (from = startDate + 7 × (week − 1)). The week's sessions are the files whose `date` falls in from…to (or whose `week` field equals it), minus optional workouts (templateId of an `optional` template). If `plan.review.week` already equals this week, it was reviewed; stop unless asked to redo it. If `week ≤ 0` (plan not started) or the week has no sessions: set `review` to `{week, date, summary: two sentences saying so, changes: [], next: one sentence}`, bump `updated`, change nothing else, and skip to step 6.
 
 ## 3. Read the week
 
@@ -57,9 +58,10 @@ Print every session compactly (widen the range to see earlier weeks for the stal
 ```bash
 node -e '
 const fs=require("fs"),dir="/home/user/lift-log-data/sessions",from=process.argv[1],to=process.argv[2];
+const opt=new Set(require("/home/user/lift-log/plan.json").templates.filter(t=>t.optional).map(t=>t.id));
 const e1=(w,r)=>r>=1&&r<=15?Math.round(w*(1+r/30)):null;
 for(const f of fs.readdirSync(dir).sort()){const s=JSON.parse(fs.readFileSync(dir+"/"+f,"utf8"));
- if(s.date<from||s.date>to)continue;
+ if(s.date<from||s.date>to||opt.has(s.templateId))continue;   // optional workouts are not reviewed
  console.log(`\n# ${s.date} ${s.templateId} week=${s.week??"?"} feel=${s.feel||"-"} notes=${JSON.stringify(s.notes||"")}`);
  if(s.prs&&s.prs.length)console.log("  PRs: "+s.prs.map(p=>`${p.name} ${p.prev}→${p.v}`).join("; "));
  for(const x of s.exercises){const t=x.target||{};
@@ -72,7 +74,7 @@ For the reviewed week, write down: attendance (distinct dates), the bench sets o
 
 Work through the tables in order. Every edit you decide on becomes one string in `review.changes`.
 
-### 4a. Attendance (5 planned: Mon, Tue, Thu, Fri, Sat)
+### 4a. Attendance (5 planned: Mon, Tue, Thu, Fri, Sat; optional Sunday abs never count)
 
 | Sessions | Do |
 |---|---|
@@ -155,10 +157,11 @@ if(!isDate(p.updated)) bad.push("updated is not YYYY-MM-DD");
 if(p.goal!==185||p.startDate!=="2026-10-19") bad.push("goal/startDate changed");
 p.benchWeeks.forEach((b,i)=>{ if(b.week!==i+1) bad.push(`benchWeeks[${i}].week=${b.week}, expected ${i+1}`);
   for(const d of ["day1","day3","day5"]){ const x=b[d]||{}; if(!isInt(x.sets)||!isInt(x.reps)||typeof x.weight!=="number") bad.push(`week ${b.week} ${d}: sets/reps/weight must be numbers`); }});
-const ids=p.templates.map(t=>t.id).join(","), wd=p.templates.map(t=>t.weekday).join(",");
+const core=p.templates.filter(t=>!t.optional&&t.weekday!=null), ids=core.map(t=>t.id).join(","), wd=core.map(t=>t.weekday).join(",");
 if(ids!=="day1,day2,day3,day4,day5"||wd!=="1,2,4,5,6") bad.push(`template ids/weekdays changed: ${ids} / ${wd}`);
 for(const t of p.templates) for(const x of t.exercises){
   if(!L[x.name]) bad.push(`${t.id}: "${x.name}" is not in library`);
+  if(t.optional) continue;   // optional templates log seconds/sides; not reviewed
   if(x.bench){ if(!["day1","day3","day5"].includes(x.bench)) bad.push(`${t.id}: bad bench ref ${x.bench}`); continue; }
   if(!isInt(x.sets)||typeof x.reps!=="string"||!(x.weight===null||typeof x.weight==="number")||!isInt(x.rest)) bad.push(`${t.id}: "${x.name}" sets/reps/weight/rest types wrong`);
   if(!/^\d+(-\d+)?(\/leg)?$/.test(x.reps)) bad.push(`${t.id}: "${x.name}" reps "${x.reps}" is not N, N-M, N/leg or N-M/leg`); }

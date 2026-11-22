@@ -449,8 +449,10 @@ function planWeek(){
 function currentWeek(){ const pw=planWeek(); return !pw || pw.before ? 1 : pw.week; }
 function totalWeeks(){ return (state.plan?.benchWeeks||[]).length || 10; }
 function templates(){ return state.plan?.templates || []; }
-function plannedPerWeek(){ return templates().length || 5; }
-function weekSessions(week){ return doneSessions().filter(s=>weekOf(s.date)===week); }
+function coreTemplates(){ return templates().filter(t=>!t.optional && t.weekday!=null); }   // the scheduled program; optional days (Sunday abs) don't count
+function optionalIds(){ return new Set(templates().filter(t=>t.optional).map(t=>t.id)); }
+function plannedPerWeek(){ return coreTemplates().length || 5; }
+function weekSessions(week){ const opt=optionalIds(); return doneSessions().filter(s=>weekOf(s.date)===week && !opt.has(s.templateId)); }
 function weekStreak(){   // consecutive plan weeks with 3+ workouts, counting back from the current week once it has 3
   const pw=planWeek(); if (!pw || pw.before) return 0;
   let w = Math.min(pw.week, totalWeeks()), n=0;
@@ -543,7 +545,7 @@ function viewHome(){
     h("div",{class:"tlist"}, templates().map(t=>templateRow(t)))];
 }
 
-function nextTemplate(dow){ const ts=templates(); for (let i=1;i<=7;i++){ const t=ts.find(x=>x.weekday===(dow+i)%7); if (t) return t; } return ts[0]; }
+function nextTemplate(dow){ const ts=coreTemplates(); for (let i=1;i<=7;i++){ const t=ts.find(x=>x.weekday===(dow+i)%7); if (t) return t; } return ts[0]; }
 function heroCard(){
   const a = state.active;
   if (a){
@@ -555,8 +557,17 @@ function heroCard(){
       h("div",{class:"acts"}, h("button",{class:"btn ghost",onclick:discard}, state.confirmDiscard ? "Tap again to discard" : "Discard"), h("button",{class:"btn primary",onclick:()=>go("workout")}, "Resume")));
   }
   const dow = new Date().getDay(), today = todayStr();
-  const t = templates().find(x=>x.weekday===dow);
+  const t = coreTemplates().find(x=>x.weekday===dow);
   const doneToday = doneSessions().filter(s=>s.date===today);
+  const opts = t ? [] : templates().filter(x=>x.optional && x.weekday===dow);
+  if (!t && opts.length){
+    const next = nextTemplate(dow);
+    return h("section",{class:"card hero"},
+      h("div",{class:"kicker"}, h("span",{class:"label"}, `${DOW[dow]} · Optional`), doneToday.length ? h("span",{class:"done-tag"}, "✓ Trained today") : null),
+      h("h2",{}, "Rest day, abs optional"),
+      h("p",{class:"meta"}, "Skip it if you're beat up. It doesn't count toward the week or the review." + (next ? ` Next up: ${DOW[next.weekday]} · ${next.label} · ${next.name}` : "")),
+      h("div",{class:"acts"}, ...opts.map((o,i)=>h("button",{class:"btn "+(i?"ghost":"primary"),onclick:()=>startWorkout(o)}, o.name))));
+  }
   if (!t){
     const next = nextTemplate(dow);
     return h("section",{class:"card hero"},
@@ -613,7 +624,7 @@ function calendarCard(){
   const y=base.getFullYear(), m=base.getMonth(), startDow=base.getDay(), days=new Date(y, m+1, 0).getDate();
   const byDate = new Map();
   for (const s of doneSessions()){ if (!byDate.has(s.date)) byDate.set(s.date, []); byDate.get(s.date).push(s); }
-  const planned = new Set(templates().map(t=>t.weekday)), today = todayStr();
+  const planned = new Set(coreTemplates().map(t=>t.weekday)), today = todayStr();
   const cells = []; let count=0;
   for (let i=0;i<startDow;i++) cells.push(h("span",{}));
   for (let d=1; d<=days; d++){
