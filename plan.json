@@ -1,18 +1,19 @@
 {
-  "updated": "2026-11-15",
+  "updated": "2026-11-22",
   "goal": 185,
   "startMax": 170,
   "startDate": "2026-10-19",
   "note": "This week: arms Friday, legs (Day 4) Saturday, skip Day 5. Leg soreness after your first real leg day is normal and fades fast. Saturday, stop 2–3 reps short on everything.",
   "review": {
-    "week": 4,
-    "date": "2026-11-15",
-    "summary": "Only Tuesday’s legs day made it into the log this week, but it was a good one, with PRs on leg press, Bulgarian split squats and Smith calf raises. Because no bench days were logged, week 4 repeats next week (Monday 4×5 @ 150, Thursday 4×6 @ 140, Saturday 3×8 @ 140) and every accessory weight holds. If you trained other days that haven’t synced from your phone yet, they weren’t counted.",
+    "week": 5,
+    "date": "2026-11-22",
+    "summary": "4 of 5 workouts this week (Friday was missed), with PRs on Smith squat (125×8), incline curls, triceps pushdowns and reverse flys. Monday’s bench came up short at 150 (3, 4, 4, 3 reps against 4×5), so next Monday’s 4×3 drops to 145 instead of jumping to 165, while Thursday and Saturday stay at 140. Shoulder press now starts at the 30s you used, and hammer curls, stuck at 25 for four weeks, become regular dumbbell curls.",
     "changes": [
-      "Week 4 repeated (only 1 session logged, no bench days): new week 5 = 4×5 @ 150 / 4×6 @ 140 / 3×8 @ 140; rest of the plan shifts out one week, test now week 11",
-      "Library: added Squat (Smith Machine) and the 5 home-abs exercises (templates named them but the How/Swap buttons had no entry)"
+      "Week 6 day1: 165 → 145 lb (missed reps on 4×5 @ 150: 3, 4, 4, 3)",
+      "Shoulder Press (Dumbbell): weight set to 30 lb",
+      "Day 3: Hammer Curl (Dumbbell) → Bicep Curl (Dumbbell) (stalled at 25 lb for 4 weeks, first set stuck at 8)"
     ],
-    "next": "Get all three bench days in, starting with clean 4×5 at 150 on Monday."
+    "next": "Leave enough time on Monday to own all 4×3 at 145 with clean reps, then get Friday’s legs and glutes day in."
   },
   "graphs": [
     "Bench Press (Barbell)",
@@ -131,7 +132,7 @@
       "day1": {
         "sets": 4,
         "reps": 3,
-        "weight": 165
+        "weight": 145
       },
       "day3": {
         "sets": 4,
@@ -386,7 +387,7 @@
           "name": "Shoulder Press (Dumbbell)",
           "sets": 3,
           "reps": "8-12",
-          "weight": null,
+          "weight": 30,
           "rest": 90,
           "effort": "1 rep short. Last set to failure."
         },
@@ -399,10 +400,10 @@
           "effort": "1 rep short. Last set to failure."
         },
         {
-          "name": "Hammer Curl (Dumbbell)",
+          "name": "Bicep Curl (Dumbbell)",
           "sets": 3,
           "reps": "8-12",
-          "weight": 25,
+          "weight": null,
           "rest": 60,
           "effort": "1 rep short. Last set to failure."
         },
